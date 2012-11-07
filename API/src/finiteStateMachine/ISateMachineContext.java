@@ -8,13 +8,18 @@ public interface ISateMachineContext<State> {
 
     public int getPosition();
 
-    public void setPosition(int position);
+    void setPosition(int position);
 
-    public List<State> getStates();
+    public List<State> getPassedStates();
 
-    public void addState(State state);
+    void addPassedState(State state);
 
-    public State getCurrentState();
+    public State getLastRecognizedState();
 
+    void setLastRecognizedState(State state);
+
+    public State getLastProcessedState();
+
+    void setLastProcessedState(State state);
 
 }

@@ -8,6 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="API" />
+    <orderEntry type="module" module-name="Service" />
+    <orderEntry type="library" name="InteliJIDEAlib" level="application" />
   </component>
 </module>
 

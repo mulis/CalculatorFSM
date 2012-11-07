@@ -1,9 +1,11 @@
 package finiteStateMachine.exception;
 
+import finiteStateMachine.ISateMachineContext;
+
 public class NextStateNotFoundException extends StateMachineException {
 
-    public NextStateNotFoundException() {
-        super("Next state not found.");
+    public <Context extends ISateMachineContext> NextStateNotFoundException(Context context) {
+        super("Next state not found.", context);
     }
 
 }

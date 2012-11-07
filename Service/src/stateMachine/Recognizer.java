@@ -15,6 +15,10 @@ public class Recognizer implements IStateRecognizer<Context, State> {
         this.matcher = Pattern.compile(pattern).matcher("");
     }
 
+    public Matcher getMatcher() {
+        return matcher;
+    }
+
     @Override
     public boolean recognize(Context context, State state) throws RecognitionException {
 

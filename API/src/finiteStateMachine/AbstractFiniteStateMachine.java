@@ -1,6 +1,7 @@
 package finiteStateMachine;
 
 import finiteStateMachine.exception.NextStateNotFoundException;
+import finiteStateMachine.exception.RecognitionException;
 import finiteStateMachine.exception.StateMachineException;
 
 import java.util.List;
@@ -9,34 +10,51 @@ public abstract class AbstractFiniteStateMachine<Context extends ISateMachineCon
 
     public List<State> run(Context context) throws StateMachineException {
 
-        State state = reset(context);
+        //State state = nextState(context, null);
+        State state = getTransitionMatrix().getStartState();
 
         while (state != getTransitionMatrix().getFinishState()) {
-            context.addState(state);
-            getProcessor(state).process(context, state);
             state = nextState(context, state);
         }
 
-        return context.getStates();
+        return context.getPassedStates();
 
-    }
-
-    public State reset(Context context) throws StateMachineException {
-        context.setPosition(0);
-        return nextState(context, null);
     }
 
     public State nextState(Context context, State state) throws StateMachineException {
 
-        for (State nextState : getTransitionMatrix().getNextStates(state)) {
+//        if (state != null) {
+//            skipBlankState(context);
+//        }
 
-            if (getRecognizer(nextState).recognize(context, nextState)) {
-                return nextState;
+        for (State possibleState : getTransitionMatrix().getNextStates(state)) {
+
+            if (getRecognizer(possibleState).recognize(context, possibleState)) {
+
+                context.setLastRecognizedState(possibleState);
+
+                if (getProcessor(possibleState).process(context, possibleState)) {
+
+                    context.setLastProcessedState(possibleState);
+                    context.addPassedState(possibleState);
+
+                    return possibleState;
+
+                }
+
             }
 
         }
 
-        throw new NextStateNotFoundException();
+        throw new NextStateNotFoundException(context);
+
+    }
+
+    public boolean skipBlankState(Context context) throws RecognitionException {
+
+        State blankState = getTransitionMatrix().getBlankState();
+
+        return getRecognizer(blankState).recognize(context, blankState);
 
     }
 

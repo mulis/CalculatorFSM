@@ -1,31 +1,31 @@
 package stateMachine;
 
-import finiteStateMachine.IStateProcessor;
-import finiteStateMachine.IStateRecognizer;
+import stateMachine.processor.*;
 
 public enum State {
 
-    START(new Recognizer("\\G^"), new Processor() {
+    START(new Recognizer("\\G^"), new StartProcessor()),
+    BLANK(new Recognizer("\\G +"), new BlankProcessor()),
+    NUMBER(new Recognizer("\\G[\\+|\\-]?\\d*\\.?\\d+"), new NumberProcessor()),
+    OPERATOR(new Recognizer(Operation.getPattern()), new OperatorProcessor()),
+    //FUNCTION(new Recognizer(Function.getPattern()), new FunctionProcessor()),
+    PARENTHESIS_LEFT(new Recognizer("\\G\\("), new ParenthesisProcessor()),
+    PARENTHESIS_RIGHT(new Recognizer("\\G\\)"), new ParenthesisProcessor()),
+    FINISH(new Recognizer("\\G$"), new FinishProcessor());
 
-    }),
-    SPACE(new Recognizer("\\G +"), new Processor()),
-    NUMBER(new Recognizer("\\G\\d*\\.?\\d+"), new Processor()),
-    OPERATOR(new Recognizer(Operator.getPattern()), new Processor()),
-    FINISH(new Recognizer("\\G$"), new Processor());
+    private final Recognizer recognizer;
+    private final AbstractProcessor processor;
 
-    private final IStateRecognizer recognizer;
-    private final IStateProcessor processor;
-
-    State(IStateRecognizer recognizer, IStateProcessor processor) {
+    State(Recognizer recognizer, AbstractProcessor processor) {
         this.recognizer = recognizer;
         this.processor = processor;
     }
 
-    public IStateRecognizer getRecognizer() {
+    public Recognizer getRecognizer() {
         return recognizer;
     }
 
-    public IStateProcessor getProcessor() {
+    public AbstractProcessor getProcessor() {
         return processor;
     }
 

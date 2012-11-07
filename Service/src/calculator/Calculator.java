@@ -1,37 +1,38 @@
 package calculator;
 
+import calculator.exception.CalculationException;
 import finiteStateMachine.exception.StateMachineException;
 import stateMachine.State;
 import stateMachine.StateMachine;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 public class Calculator implements IMathExpressionCalculator {
 
     @Override
-    public BigDecimal calculate(String expression) {
+    public BigDecimal calculate(String expression) throws CalculationException {
 
-        Context context = new Context(expression);
+        return calculate(expression, MathContext.UNLIMITED);
+
+    }
+
+    @Override
+    public BigDecimal calculate(String expression, MathContext mathContext) throws CalculationException {
+
+        Context context = new Context(expression, mathContext);
         StateMachine machine = new StateMachine();
 
         try {
-
             List<State> states = machine.run(context);
-
-
-        } catch (StateMachineException e) {
-            e.printStackTrace();
+        } catch (StateMachineException exception) {
+            throw new CalculationException(exception.getPosition());
         }
 
-        return null;
-    }
+        BigDecimal result = context.getOperandStack().removeLast();
 
-    public static void main(String[] args) {
-
-        Calculator calculator = new Calculator();
-        BigDecimal result = calculator.calculate(" 22 .1+ 2.3   ");
-        System.out.println(result);
+        return result;
 
     }
 
