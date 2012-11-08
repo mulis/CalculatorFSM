@@ -14,7 +14,7 @@ public class Calculator implements IMathExpressionCalculator {
     @Override
     public BigDecimal calculate(String expression) throws CalculationException {
 
-        return calculate(expression, MathContext.UNLIMITED);
+        return calculate(expression, MathContext.DECIMAL64);
 
     }
 

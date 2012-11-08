@@ -7,7 +7,6 @@ import stateMachine.Operation;
 import stateMachine.State;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 
 public abstract class AbstractProcessor implements IStateProcessor<Context, State> {
 
@@ -43,7 +42,7 @@ public abstract class AbstractProcessor implements IStateProcessor<Context, Stat
             values[i] = context.getOperandStack().removeLast();
         }
 
-        context.getOperandStack().addLast(operation.compute(values, MathContext.UNLIMITED));
+        context.getOperandStack().addLast(operation.compute(values, context.getMathContext()));
 
     }
 

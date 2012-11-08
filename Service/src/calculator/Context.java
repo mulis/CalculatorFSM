@@ -29,7 +29,7 @@ public class Context implements ISateMachineContext<State> {
     private final Deque<Deque> operationStackStorage = new ArrayDeque<Deque>();
 
     public Context(String expression) {
-        this(expression, MathContext.UNLIMITED);
+        this(expression, MathContext.DECIMAL64);
     }
 
     public Context(String expression, MathContext mathContext) {
