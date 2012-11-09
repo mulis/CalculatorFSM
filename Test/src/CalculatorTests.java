@@ -1,5 +1,6 @@
 import calculator.Calculator;
 import calculator.exception.CalculationException;
+import calculator.exception.UnexpectedElementException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -42,6 +43,10 @@ public class CalculatorTests {
 
     @Test
     public void parenthesisTest() throws CalculationException {
+        assertEquals(BigDecimal.valueOf(4), calculator.calculate(" 1 + ( 2 - 3 ) + 4 "));
+        assertEquals(BigDecimal.valueOf(-8), calculator.calculate(" 1 - ( 2 + 3 ) - 4 "));
+        assertEquals(BigDecimal.valueOf(10), calculator.calculate(" 1 + ( 2 + 3 ) + 4 "));
+        assertEquals(BigDecimal.valueOf(-2), calculator.calculate(" 1 - ( 2 - 3 ) - 4"));
         assertEquals(BigDecimal.valueOf(5), calculator.calculate(" 1 * ( 2 + 3 ) "));
         assertEquals(BigDecimal.valueOf(0.6), calculator.calculate(" 1 + ( 2 * ( 3 - 4 ) / 5 ) "));
         assertEquals(BigDecimal.valueOf(0.6), calculator.calculate(" ( 1 + ( 2 * 3 - 4 ) ) / 5 "));
@@ -49,10 +54,10 @@ public class CalculatorTests {
 
     @Test
     public void exceptionTest() throws CalculationException {
-        assertEquals(CalculationException.class, catchCalculatorException(" 1 2 ").getClass());
-        assertEquals(CalculationException.class, catchCalculatorException(" 1 (-2) ").getClass());
-        assertEquals(CalculationException.class, catchCalculatorException(" + ").getClass());
-        assertEquals(CalculationException.class, catchCalculatorException(" 1 + - ").getClass());
+        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 2 ").getClass());
+        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 (-2) ").getClass());
+        assertEquals(UnexpectedElementException.class, catchCalculatorException(" + ").getClass());
+        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 + - ").getClass());
     }
 
     private Exception catchCalculatorException(String expression) {

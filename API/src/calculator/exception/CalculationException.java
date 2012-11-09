@@ -4,17 +4,17 @@ public class CalculationException extends Exception {
 
     private int position;
 
-    public CalculationException(String message) {
-        super(message);
+    public CalculationException(int position) {
+        this(String.format("Error in expression at position %d.", position), position);
     }
 
-    public CalculationException(int position) {
-        super("Error in expression at position " + position + ".");
+    public CalculationException(String message, int position) {
+        super(message);
         this.position = position;
     }
-
 
     public int getPosition() {
         return position;
     }
+
 }
