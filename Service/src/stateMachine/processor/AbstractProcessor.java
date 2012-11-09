@@ -10,14 +10,6 @@ import java.math.BigDecimal;
 
 public abstract class AbstractProcessor implements IStateProcessor<Context, State> {
 
-    public void checkLastProcessedState(Context context, State state) throws ProcessingException {
-
-        if ((context.getLastProcessedState() != null) && context.getLastProcessedState().equals(state)) {
-            throw new ProcessingException(context);
-        }
-
-    }
-
     public void performAllStackedOperations(Context context) throws ProcessingException {
 
         while (!context.getOperationStack().isEmpty()) {
@@ -33,7 +25,7 @@ public abstract class AbstractProcessor implements IStateProcessor<Context, Stat
         Operation operation = context.getOperationStack().removeLast();
 
         if (operation.getOperandCount() > context.getOperandStack().size()) {
-            throw new ProcessingException(context);
+            throw new ProcessingException("Absent operands.", context.getPosition());
         }
 
         BigDecimal[] values = new BigDecimal[operation.getOperandCount()];

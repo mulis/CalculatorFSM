@@ -11,8 +11,6 @@ public class NumberProcessor extends AbstractProcessor {
     @Override
     public boolean process(Context context, State state) throws ProcessingException {
 
-        checkLastProcessedState(context, state);
-
         String number = state.getRecognizer().getMatcher().group();
         context.addOperand(new BigDecimal(number));
 

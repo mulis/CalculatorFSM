@@ -1,7 +1,6 @@
 package calculator;
 
 import calculator.exception.CalculationException;
-import calculator.exception.CalculationExceptionFactory;
 import finiteStateMachine.exception.StateMachineException;
 import stateMachine.State;
 import stateMachine.StateMachine;
@@ -28,7 +27,7 @@ public class Calculator implements IMathExpressionCalculator {
         try {
             List<State> states = machine.run(context);
         } catch (StateMachineException exception) {
-            throw CalculationExceptionFactory.makeException(exception);
+            throw new CalculationException(exception.getMessage(), exception.getPosition());
         }
 
         BigDecimal result = context.getOperandStack().removeLast();

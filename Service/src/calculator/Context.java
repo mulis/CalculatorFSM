@@ -24,9 +24,13 @@ public class Context implements ISateMachineContext<State> {
 
     private final Deque<BigDecimal> operandStack = new ArrayDeque<BigDecimal>();
     private final Deque<Operation> operationStack = new ArrayDeque<Operation>();
+    private Boolean parenthesisFlag = false;
+    private int startPosition;
 
     private final Deque<Deque> operandStackStorage = new ArrayDeque<Deque>();
     private final Deque<Deque> operationStackStorage = new ArrayDeque<Deque>();
+    private final Deque<Boolean> parenthesisFlagStorage = new ArrayDeque<Boolean>();
+    private final Deque<Integer> startPositionStorage = new ArrayDeque<Integer>();
 
     public Context(String expression) {
         this(expression, MathContext.DECIMAL64);
@@ -36,7 +40,8 @@ public class Context implements ISateMachineContext<State> {
         this.expression = expression;
         this.mathContext = mathContext;
         this.states = new ArrayList<State>();
-        setPosition(0);
+        this.position = 0;
+        this.startPosition = 0;
     }
 
     @Override
@@ -56,6 +61,10 @@ public class Context implements ISateMachineContext<State> {
     @Override
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getStartPosition() {
+        return startPosition;
     }
 
     @Override
@@ -108,34 +117,40 @@ public class Context implements ISateMachineContext<State> {
         return operationStack.peek();
     }
 
-    public void narrow() {
-        BigDecimal operand = operandStack.removeLast();
-        storeAndClearContextStacks();
-        addOperand(operand);
-    }
-
-    public void wide() {
-        BigDecimal operand = operandStack.removeLast();
-        clearAndRestoreContextStacks();
-        addOperand(operand);
-    }
-
-    public void storeAndClearContextStacks() {
-        operandStackStorage.addLast(new ArrayDeque(operandStack));
-        operationStackStorage.addLast(new ArrayDeque(operationStack));
+    public void store() {
+        operandStackStorage.addLast(new ArrayDeque<BigDecimal>(operandStack));
         operandStack.clear();
+        operationStackStorage.addLast(new ArrayDeque<Operation>(operationStack));
         operationStack.clear();
+        parenthesisFlagStorage.addLast(parenthesisFlag);
+        parenthesisFlag = false;
+        startPositionStorage.addLast(startPosition);
+        startPosition = position;
     }
 
-    public void clearAndRestoreContextStacks() {
+    public void restore() {
         operandStack.clear();
-        operationStack.clear();
         operandStack.addAll(operandStackStorage.removeLast());
+        operationStack.clear();
         operationStack.addAll(operationStackStorage.removeLast());
+        parenthesisFlag = parenthesisFlagStorage.removeLast();
+        startPosition = startPositionStorage.removeLast();
     }
 
     public boolean hasStoredStacks() {
         return !(operandStackStorage.isEmpty() && operationStackStorage.isEmpty());
+    }
+
+    public Boolean getParenthesisFlag() {
+        return parenthesisFlag;
+    }
+
+    public void setParenthesisFlag() {
+        parenthesisFlag = true;
+    }
+
+    public void resetParenthesisFlag() {
+        parenthesisFlag = false;
     }
 
 }

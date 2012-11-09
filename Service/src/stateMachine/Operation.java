@@ -14,21 +14,21 @@ public enum Operation {
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return values[0].subtract(values[1], mathContext);
         }
-//    },
-//    MULTIPLICATION("*", 2, 2) {
-//        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
-//            return values[0].multiply(values[1], mathContext);
-//        }
-//    },
-//    DIVISION("/", 2, 2) {
-//        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
-//            return values[0].divide(values[1], mathContext);
-//        }
-//    },
-//    EXPONENTIATION("^", 2, 2) {
-//        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
-//            return new BigDecimal(Math.pow(values[0].doubleValue(), values[1].doubleValue()), mathContext);
-//        }
+    },
+    MULTIPLICATION("*", 2, 2) {
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            return values[0].multiply(values[1], mathContext);
+        }
+    },
+    DIVISION("/", 2, 2) {
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            return values[0].divide(values[1], mathContext);
+        }
+    },
+    EXPONENTIATION("^", 2, 2) {
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            return new BigDecimal(Math.pow(values[0].doubleValue(), values[1].doubleValue()), mathContext);
+        }
     };
 
     private final String symbol;

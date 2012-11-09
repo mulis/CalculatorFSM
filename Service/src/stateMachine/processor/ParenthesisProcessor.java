@@ -4,6 +4,8 @@ import calculator.Context;
 import finiteStateMachine.exception.ProcessingException;
 import stateMachine.State;
 
+import java.math.BigDecimal;
+
 public class ParenthesisProcessor extends AbstractProcessor {
 
     @Override
@@ -11,13 +13,21 @@ public class ParenthesisProcessor extends AbstractProcessor {
 
         if (state.equals(State.PARENTHESIS_LEFT)) {
 
-            context.storeAndClearContextStacks();
+            context.setParenthesisFlag();
+            context.store();
 
         } else if (state.equals(State.PARENTHESIS_RIGHT)) {
 
             performAllStackedOperations(context);
 
-            context.wide();
+            if (context.hasStoredStacks()) {
+                BigDecimal operand = context.getOperandStack().removeLast();
+                context.restore();
+                context.addOperand(operand);
+            } else {
+                throw new ProcessingException("Not matched right parenthesis.", context.getPosition());
+            }
+
 
         }
 

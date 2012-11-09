@@ -1,6 +1,5 @@
 import calculator.Calculator;
 import calculator.exception.CalculationException;
-import calculator.exception.UnexpectedElementException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -13,15 +12,15 @@ public class CalculatorTests {
 
     //@Test
     public void errorTest() throws CalculationException {
-        assertEquals(calculator.calculate("2 2"), BigDecimal.valueOf(4));
+        assertEquals(BigDecimal.valueOf(4), calculator.calculate("2 2"));
     }
 
     @Test
     public void numberTest() throws CalculationException {
-        assertEquals(calculator.calculate("1"), BigDecimal.valueOf(1));
-        assertEquals(calculator.calculate("1.1"), BigDecimal.valueOf(1.1));
-        assertEquals(calculator.calculate(" 1 "), BigDecimal.valueOf(1));
-        assertEquals(calculator.calculate(" -1 "), BigDecimal.valueOf(-1));
+        assertEquals(BigDecimal.valueOf(1), calculator.calculate("1"));
+        assertEquals(BigDecimal.valueOf(1.1), calculator.calculate("1.1"));
+        assertEquals(BigDecimal.valueOf(1), calculator.calculate(" 1 "));
+        assertEquals(BigDecimal.valueOf(-1), calculator.calculate(" -1 "));
     }
 
     @Test
@@ -42,6 +41,16 @@ public class CalculatorTests {
     }
 
     @Test
+    public void functionTest() throws CalculationException {
+        assertEquals(BigDecimal.valueOf(3), calculator.calculate("sqr(9)"));
+        assertEquals(BigDecimal.valueOf(1.5), calculator.calculate("sqr(2.25)"));
+        assertEquals(BigDecimal.valueOf(4), calculator.calculate("sqr(10 + 6)"));
+        assertEquals(BigDecimal.valueOf(-5), calculator.calculate("min(1,2-3, sqr(4), (-5))"));
+        assertEquals(BigDecimal.valueOf(2), calculator.calculate("max(1,2-3, sqr(4), (-5))"));
+        assertEquals(BigDecimal.valueOf(-3), calculator.calculate("sum(1,2-3, sqr(4), (-5))"));
+    }
+
+    @Test
     public void parenthesisTest() throws CalculationException {
         assertEquals(BigDecimal.valueOf(4), calculator.calculate(" 1 + ( 2 - 3 ) + 4 "));
         assertEquals(BigDecimal.valueOf(-8), calculator.calculate(" 1 - ( 2 + 3 ) - 4 "));
@@ -54,14 +63,16 @@ public class CalculatorTests {
 
     @Test
     public void exceptionTest() throws CalculationException {
-        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 2 ").getClass());
-        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 (-2) ").getClass());
-        assertEquals(UnexpectedElementException.class, catchCalculatorException(" + ").getClass());
-        assertEquals(UnexpectedElementException.class, catchCalculatorException(" 1 + - ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" 1 2 ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" 1 (-2) ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" + ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" 1 + - ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" 1 + (-2)) ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" 1 + ((-2) ").getClass());
     }
 
     private Exception catchCalculatorException(String expression) {
-        Exception result = null;
+        Exception result = new Exception("Calculator exception not thrown");
         try {
             calculator.calculate(expression);
         } catch (Exception exception) {

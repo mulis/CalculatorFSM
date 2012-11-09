@@ -5,12 +5,12 @@ import finiteStateMachine.exception.ProcessingException;
 import stateMachine.Operation;
 import stateMachine.State;
 
+import java.math.BigDecimal;
+
 public class OperatorProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Context context, State state) throws ProcessingException {
-
-        checkLastProcessedState(context, state);
 
         String operator = state.getRecognizer().getMatcher().group();
         Operation operation = Operation.getOperation(operator);
@@ -24,7 +24,9 @@ public class OperatorProcessor extends AbstractProcessor {
 
             if (lastOperation.getPriority() < operation.getPriority()) {
 
-                context.narrow();
+                BigDecimal operand = context.getOperandStack().removeLast();
+                context.store();
+                context.addOperand(operand);
                 context.addOperation(operation);
 
             } else if (lastOperation.getPriority() >= operation.getPriority()) {
