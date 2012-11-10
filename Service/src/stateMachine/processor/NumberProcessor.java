@@ -12,7 +12,7 @@ public class NumberProcessor extends AbstractProcessor {
     public boolean process(Context context, State state) throws ProcessingException {
 
         String number = state.getRecognizer().getMatcher().group();
-        context.addOperand(new BigDecimal(number));
+        context.addValue(new BigDecimal(number));
 
         return true;
 

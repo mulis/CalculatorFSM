@@ -13,21 +13,38 @@ public class ParenthesisProcessor extends AbstractProcessor {
 
         if (state.equals(State.PARENTHESIS_LEFT)) {
 
-            context.setParenthesisFlag();
             context.store();
+            context.setParenthesisFlag();
 
         } else if (state.equals(State.PARENTHESIS_RIGHT)) {
 
-            performAllStackedOperations(context);
-
-            if (context.hasStoredStacks()) {
-                BigDecimal operand = context.getOperandStack().removeLast();
-                context.restore();
-                context.addOperand(operand);
-            } else {
+            if (context.isStorageEmpty()) {
                 throw new ProcessingException("Not matched right parenthesis.", context.getPosition());
             }
 
+            if (context.getComputations().isEmpty()) {
+
+                BigDecimal[] values = getValuesArray(context);
+                context.restore();
+                for (BigDecimal value : values) {
+                    context.addValue(value);
+                }
+
+            } else {
+
+                BigDecimal value = performLastComputation(context);
+                context.restore();
+                context.addValue(value);
+
+            }
+
+            if (context.getFunctionFlag()) {
+
+                BigDecimal value = performLastComputation(context);
+                context.restore();
+                context.addValue(value);
+
+            }
 
         }
 

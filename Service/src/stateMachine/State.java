@@ -7,8 +7,9 @@ public enum State {
     START(new Recognizer("\\G^"), new StartProcessor()),
     BLANK(new Recognizer("\\G +"), new BlankProcessor()),
     NUMBER(new Recognizer("\\G[\\+|\\-]?\\d*\\.?\\d+"), new NumberProcessor()),
-    OPERATOR(new Recognizer(Operation.getPattern()), new OperatorProcessor()),
-    //FUNCTION(new Recognizer(Function.getPattern()), new FunctionProcessor()),
+    OPERATOR(new Recognizer(Operation.getPattern()), new OperationProcessor()),
+    FUNCTION(new Recognizer(Function.getPattern()), new FunctionProcessor()),
+    FUNCTION_ARGUMENT_SEPARATOR(new Recognizer("\\G\\,"), new FunctionArgumentSeparatorProcessor()),
     PARENTHESIS_LEFT(new Recognizer("\\G\\("), new ParenthesisProcessor()),
     PARENTHESIS_RIGHT(new Recognizer("\\G\\)"), new ParenthesisProcessor()),
     FINISH(new Recognizer("\\G$"), new FinishProcessor());

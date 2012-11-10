@@ -1,40 +1,38 @@
 package stateMachine.processor;
 
 import calculator.Context;
+import calculator.IComputation;
 import finiteStateMachine.IStateProcessor;
 import finiteStateMachine.exception.ProcessingException;
-import stateMachine.Operation;
 import stateMachine.State;
 
 import java.math.BigDecimal;
 
 public abstract class AbstractProcessor implements IStateProcessor<Context, State> {
 
-    public void performAllStackedOperations(Context context) throws ProcessingException {
+    public BigDecimal performLastComputation(Context context) throws ProcessingException {
 
-        while (!context.getOperationStack().isEmpty()) {
+        IComputation computation = context.getComputations().removeLast();
 
-            performLastStackedOperation(context);
-
+        if (!computation.checkValuesCount(context.getValues().size())) {
+            throw new ProcessingException("Value count not acceptable.", context.getStartPosition());
         }
+
+        BigDecimal[] values = getValuesArray(context);
+
+        return computation.compute(values, context.getMathContext());
 
     }
 
-    public void performLastStackedOperation(Context context) throws ProcessingException {
+    public BigDecimal[] getValuesArray(Context context) {
 
-        Operation operation = context.getOperationStack().removeLast();
-
-        if (operation.getOperandCount() > context.getOperandStack().size()) {
-            throw new ProcessingException("Absent operands.", context.getPosition());
-        }
-
-        BigDecimal[] values = new BigDecimal[operation.getOperandCount()];
+        BigDecimal[] values = new BigDecimal[context.getValues().size()];
 
         for (int i = values.length - 1; i > -1; --i) {
-            values[i] = context.getOperandStack().removeLast();
+            values[i] = context.getValues().removeLast();
         }
 
-        context.getOperandStack().addLast(operation.compute(values, context.getMathContext()));
+        return values;
 
     }
 

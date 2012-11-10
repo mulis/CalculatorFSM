@@ -1,31 +1,38 @@
 package stateMachine;
 
+import calculator.IComputation;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public enum Operation {
+public enum Operation implements IComputation {
 
     ADDITION("+", 2, 1) {
+        @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return values[0].add(values[1], mathContext);
         }
     },
     SUBTRACTION("-", 2, 1) {
+        @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return values[0].subtract(values[1], mathContext);
         }
     },
     MULTIPLICATION("*", 2, 2) {
+        @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return values[0].multiply(values[1], mathContext);
         }
     },
     DIVISION("/", 2, 2) {
+        @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return values[0].divide(values[1], mathContext);
         }
     },
     EXPONENTIATION("^", 2, 2) {
+        @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return new BigDecimal(Math.pow(values[0].doubleValue(), values[1].doubleValue()), mathContext);
         }
@@ -41,16 +48,17 @@ public enum Operation {
         this.priority = priority;
     }
 
-    public abstract BigDecimal compute(BigDecimal[] operands, MathContext mathContext);
-
+    @Override
     public String getSymbol() {
         return symbol;
     }
 
-    public int getOperandCount() {
-        return operandCount;
+    @Override
+    public boolean checkValuesCount(int count) {
+        return count == operandCount;
     }
 
+    @Override
     public int getPriority() {
         return priority;
     }

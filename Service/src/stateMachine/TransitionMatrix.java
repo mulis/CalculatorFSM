@@ -13,12 +13,14 @@ public class TransitionMatrix implements IStateTransitionMatrix<State> {
 
     private static final Map<State, Set<State>> TRANSITIONS = new HashMap<State, Set<State>>() {{
         put(null, EnumSet.of(START));
-        put(START, EnumSet.of(BLANK, NUMBER, PARENTHESIS_LEFT));
+        put(START, EnumSet.of(BLANK, NUMBER, FUNCTION, PARENTHESIS_LEFT));
         put(BLANK, EnumSet.range(NUMBER, FINISH));
-        put(NUMBER, EnumSet.of(BLANK, OPERATOR, PARENTHESIS_RIGHT, FINISH));
-        put(OPERATOR, EnumSet.of(BLANK, NUMBER, PARENTHESIS_LEFT));
-        put(PARENTHESIS_LEFT, EnumSet.of(BLANK, NUMBER, PARENTHESIS_LEFT));
-        put(PARENTHESIS_RIGHT, EnumSet.of(BLANK, OPERATOR, PARENTHESIS_RIGHT, FINISH));
+        put(NUMBER, EnumSet.of(BLANK, OPERATOR, PARENTHESIS_RIGHT, FUNCTION_ARGUMENT_SEPARATOR, FINISH));
+        put(OPERATOR, EnumSet.of(BLANK, NUMBER, FUNCTION, PARENTHESIS_LEFT));
+        put(FUNCTION, EnumSet.of(PARENTHESIS_LEFT));
+        put(FUNCTION_ARGUMENT_SEPARATOR, EnumSet.of(BLANK, NUMBER, FUNCTION, PARENTHESIS_LEFT));
+        put(PARENTHESIS_LEFT, EnumSet.of(BLANK, NUMBER, FUNCTION, PARENTHESIS_LEFT, PARENTHESIS_RIGHT));
+        put(PARENTHESIS_RIGHT, EnumSet.of(BLANK, OPERATOR, PARENTHESIS_RIGHT, FUNCTION_ARGUMENT_SEPARATOR, FINISH));
         put(FINISH, EnumSet.noneOf(State.class));
     }};
 

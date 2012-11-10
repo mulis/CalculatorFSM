@@ -2,12 +2,10 @@ package calculator;
 
 import calculator.exception.CalculationException;
 import finiteStateMachine.exception.StateMachineException;
-import stateMachine.State;
 import stateMachine.StateMachine;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.List;
 
 public class Calculator implements IMathExpressionCalculator {
 
@@ -25,14 +23,12 @@ public class Calculator implements IMathExpressionCalculator {
         StateMachine machine = new StateMachine();
 
         try {
-            List<State> states = machine.run(context);
+            machine.run(context);
         } catch (StateMachineException exception) {
             throw new CalculationException(exception.getMessage(), exception.getPosition());
         }
 
-        BigDecimal result = context.getOperandStack().removeLast();
-
-        return result;
+        return context.getValues().removeLast();
 
     }
 

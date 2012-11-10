@@ -10,11 +10,6 @@ public class CalculatorTests {
 
     private static final Calculator calculator = new Calculator();
 
-    //@Test
-    public void errorTest() throws CalculationException {
-        assertEquals(BigDecimal.valueOf(4), calculator.calculate("2 2"));
-    }
-
     @Test
     public void numberTest() throws CalculationException {
         assertEquals(BigDecimal.valueOf(1), calculator.calculate("1"));
@@ -42,12 +37,13 @@ public class CalculatorTests {
 
     @Test
     public void functionTest() throws CalculationException {
-        assertEquals(BigDecimal.valueOf(3), calculator.calculate("sqr(9)"));
-        assertEquals(BigDecimal.valueOf(1.5), calculator.calculate("sqr(2.25)"));
-        assertEquals(BigDecimal.valueOf(4), calculator.calculate("sqr(10 + 6)"));
-        assertEquals(BigDecimal.valueOf(-5), calculator.calculate("min(1,2-3, sqr(4), (-5))"));
-        assertEquals(BigDecimal.valueOf(2), calculator.calculate("max(1,2-3, sqr(4), (-5))"));
-        assertEquals(BigDecimal.valueOf(-3), calculator.calculate("sum(1,2-3, sqr(4), (-5))"));
+        assertEquals(BigDecimal.valueOf(3), calculator.calculate("0 + sqr(9) - 0"));
+        assertEquals(BigDecimal.valueOf(1.5), calculator.calculate("0 + sqr(2.25) - 0"));
+        assertEquals(BigDecimal.valueOf(4), calculator.calculate("0 + sqr(10 + 6) - 0"));
+        assertEquals(BigDecimal.valueOf(-5), calculator.calculate("0 + min(1,2-3, sqr(4), sqr(2+2), (-5)) - 0"));
+        assertEquals(BigDecimal.valueOf(2), calculator.calculate("0 + max(1,2-3, sqr(4), sqr(2+2), (-5)) - 0"));
+        assertEquals(BigDecimal.valueOf(-1), calculator.calculate("0 + sum(1,2-3, sqr(4), sqr(2+2), (-5)) - 0"));
+        assertEquals(BigDecimal.valueOf(Math.PI), calculator.calculate("pi()"));
     }
 
     @Test
@@ -69,6 +65,8 @@ public class CalculatorTests {
         assertEquals(CalculationException.class, catchCalculatorException(" 1 + - ").getClass());
         assertEquals(CalculationException.class, catchCalculatorException(" 1 + (-2)) ").getClass());
         assertEquals(CalculationException.class, catchCalculatorException(" 1 + ((-2) ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" min(1) ").getClass());
+        assertEquals(CalculationException.class, catchCalculatorException(" sqr(9, 16) ").getClass());
     }
 
     private Exception catchCalculatorException(String expression) {

@@ -11,21 +11,23 @@ public class FinishProcessor extends AbstractProcessor {
     @Override
     public boolean process(Context context, State state) throws ProcessingException {
 
-        while (context.hasStoredStacks()) {
+        while (!context.isStorageEmpty()) {
 
             if (context.getParenthesisFlag()) {
                 throw new ProcessingException("Not matched left parenthesis.", context.getStartPosition());
             }
 
-            performAllStackedOperations(context);
-
-            BigDecimal operand = context.getOperandStack().removeLast();
+            BigDecimal operand = performLastComputation(context);
             context.restore();
-            context.addOperand(operand);
+            context.addValue(operand);
 
         }
 
-        performAllStackedOperations(context);
+        if (!context.getComputations().isEmpty()) {
+
+            BigDecimal operand = performLastComputation(context);
+            context.addValue(operand);
+        }
 
         return true;
 

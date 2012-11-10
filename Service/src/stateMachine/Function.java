@@ -1,78 +1,88 @@
 package stateMachine;
 
+import calculator.IComputation;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public enum Function {
+public enum Function implements IComputation {
 
-    SQR("sqr", 2, 3) {
+    SQR("sqr", 1, 1, 3) {
         @Override
-        public BigDecimal compute(BigDecimal[] arguments, MathContext mathContext) {
-            checkArgumentsCount(arguments);
-            BigDecimal result = new BigDecimal(Math.sqrt(arguments[0].doubleValue()), mathContext);
-            return result;
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            return new BigDecimal(Math.sqrt(values[0].doubleValue()), mathContext);
         }
     },
-    MIN("min", Integer.MAX_VALUE, 3) {
+    MIN("min", 2, Integer.MAX_VALUE, 3) {
         @Override
-        public BigDecimal compute(BigDecimal[] arguments, MathContext mathContext) {
-            checkArgumentsCount(arguments);
-            BigDecimal result = arguments[0];
-            for (int i = 1; i < arguments.length; ++i) {
-                result = result.min(arguments[i]);
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            BigDecimal result = values[0];
+            for (int i = 1; i < values.length; ++i) {
+                result = result.min(values[i]);
             }
             return result;
         }
     },
-    MAX("max", Integer.MAX_VALUE, 3) {
+    MAX("max", 2, Integer.MAX_VALUE, 3) {
         @Override
-        public BigDecimal compute(BigDecimal[] arguments, MathContext mathContext) {
-            checkArgumentsCount(arguments);
-            BigDecimal result = arguments[0];
-            for (int i = 1; i < arguments.length; ++i) {
-                result = result.max(arguments[i]);
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            BigDecimal result = values[0];
+            for (int i = 1; i < values.length; ++i) {
+                result = result.max(values[i]);
             }
             return result;
         }
     },
-    SUM("sum", Integer.MAX_VALUE, 3) {
+    SUM("sum", 2, Integer.MAX_VALUE, 3) {
         @Override
-        public BigDecimal compute(BigDecimal[] arguments, MathContext mathContext) {
-            checkArgumentsCount(arguments);
-            BigDecimal result = arguments[0];
-            for (int i = 1; i < arguments.length; ++i) {
-                result = result.add(arguments[i], mathContext);
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            BigDecimal result = values[0];
+            for (int i = 1; i < values.length; ++i) {
+                result = result.add(values[i], mathContext);
             }
             return result;
+        }
+    },
+    PI("pi", 0, 0, 3) {
+        @Override
+        public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
+            return new BigDecimal(Math.PI, mathContext);
         }
     };
 
-    private static void checkArgumentsCount(BigDecimal[] arguments) {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
     private final String symbol;
-    private final int argumentCount;
+    private final int minArgumentCount;
+    private final int maxArgumentCount;
     private final int priority;
 
-    Function(String symbol, int argumentCount, int priority) {
+    Function(String symbol, int minArgumentCount, int maxArgumentCount, int priority) {
         this.symbol = symbol;
-        this.argumentCount = argumentCount;
+        this.minArgumentCount = minArgumentCount;
+        this.maxArgumentCount = maxArgumentCount;
         this.priority = priority;
     }
 
-    public abstract BigDecimal compute(BigDecimal[] arguments, MathContext mathContext);
-
+    @Override
     public String getSymbol() {
         return symbol;
     }
 
-    public int getArgumentCount() {
-        return argumentCount;
+    public int getMinArgumentCount() {
+        return minArgumentCount;
     }
 
+    public int getMaxArgumentCount() {
+        return maxArgumentCount;
+    }
+
+    @Override
     public int getPriority() {
         return priority;
+    }
+
+    @Override
+    public boolean checkValuesCount(int count) {
+        return count >= minArgumentCount && count <= maxArgumentCount;
     }
 
     public static Function getFunction(String symbol) {

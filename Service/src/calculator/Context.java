@@ -1,7 +1,6 @@
 package calculator;
 
 import finiteStateMachine.ISateMachineContext;
-import stateMachine.Operation;
 import stateMachine.State;
 
 import java.math.BigDecimal;
@@ -19,17 +18,19 @@ public class Context implements ISateMachineContext<State> {
     private int position;
     private List<State> states;
 
-    private State lastRecognized;
-    private State lastProcessed;
+    private State lastRecognizedState;
+    private State lastProcessedState;
 
-    private final Deque<BigDecimal> operandStack = new ArrayDeque<BigDecimal>();
-    private final Deque<Operation> operationStack = new ArrayDeque<Operation>();
+    private final Deque<BigDecimal> values = new ArrayDeque<BigDecimal>();
+    private final Deque<IComputation> computations = new ArrayDeque<IComputation>();
     private Boolean parenthesisFlag = false;
+    private Boolean functionFlag = false;
     private int startPosition;
 
-    private final Deque<Deque> operandStackStorage = new ArrayDeque<Deque>();
-    private final Deque<Deque> operationStackStorage = new ArrayDeque<Deque>();
+    private final Deque<Deque> valuesStorage = new ArrayDeque<Deque>();
+    private final Deque<Deque> computationsStorage = new ArrayDeque<Deque>();
     private final Deque<Boolean> parenthesisFlagStorage = new ArrayDeque<Boolean>();
+    private final Deque<Boolean> functionFlagStorage = new ArrayDeque<Boolean>();
     private final Deque<Integer> startPositionStorage = new ArrayDeque<Integer>();
 
     public Context(String expression) {
@@ -79,66 +80,73 @@ public class Context implements ISateMachineContext<State> {
 
     @Override
     public State getLastRecognizedState() {
-        return lastRecognized;
+        return lastRecognizedState;
     }
 
     @Override
     public void setLastRecognizedState(State state) {
-        lastRecognized = state;
+        lastRecognizedState = state;
     }
 
     @Override
     public State getLastProcessedState() {
-        return lastProcessed;
+        return lastProcessedState;
     }
 
     @Override
     public void setLastProcessedState(State state) {
-        lastProcessed = state;
+        lastProcessedState = state;
     }
 
-    public void addOperand(BigDecimal operand) {
-        operandStack.addLast(operand);
+    public void addValue(BigDecimal operand) {
+        values.addLast(operand);
     }
 
-    public Deque<BigDecimal> getOperandStack() {
-        return operandStack;
+    public Deque<BigDecimal> getValues() {
+        return values;
     }
 
-    public void addOperation(Operation operation) {
-        operationStack.add(operation);
+    public void addComputation(IComputation computation) {
+        computations.add(computation);
     }
 
-    public Deque<Operation> getOperationStack() {
-        return operationStack;
+    public Deque<IComputation> getComputations() {
+        return computations;
     }
 
-    public Operation getLastOperation() {
-        return operationStack.peek();
+    public IComputation getLastComputation() {
+        return computations.peek();
     }
 
     public void store() {
-        operandStackStorage.addLast(new ArrayDeque<BigDecimal>(operandStack));
-        operandStack.clear();
-        operationStackStorage.addLast(new ArrayDeque<Operation>(operationStack));
-        operationStack.clear();
+        valuesStorage.addLast(new ArrayDeque<BigDecimal>(values));
+        values.clear();
+        computationsStorage.addLast(new ArrayDeque<IComputation>(computations));
+        computations.clear();
         parenthesisFlagStorage.addLast(parenthesisFlag);
         parenthesisFlag = false;
+        functionFlagStorage.addLast(functionFlag);
+        functionFlag = false;
         startPositionStorage.addLast(startPosition);
         startPosition = position;
     }
 
     public void restore() {
-        operandStack.clear();
-        operandStack.addAll(operandStackStorage.removeLast());
-        operationStack.clear();
-        operationStack.addAll(operationStackStorage.removeLast());
+        values.clear();
+        values.addAll(valuesStorage.removeLast());
+        computations.clear();
+        computations.addAll(computationsStorage.removeLast());
         parenthesisFlag = parenthesisFlagStorage.removeLast();
+        functionFlag = functionFlagStorage.removeLast();
         startPosition = startPositionStorage.removeLast();
     }
 
-    public boolean hasStoredStacks() {
-        return !(operandStackStorage.isEmpty() && operationStackStorage.isEmpty());
+    public boolean isStorageEmpty() {
+        return valuesStorage.isEmpty() &&
+                computationsStorage.isEmpty() &&
+                parenthesisFlagStorage.isEmpty() &&
+                functionFlagStorage.isEmpty() &&
+                startPositionStorage.isEmpty();
     }
 
     public Boolean getParenthesisFlag() {
@@ -151,6 +159,18 @@ public class Context implements ISateMachineContext<State> {
 
     public void resetParenthesisFlag() {
         parenthesisFlag = false;
+    }
+
+    public Boolean getFunctionFlag() {
+        return functionFlag;
+    }
+
+    public void setFunctionFlag() {
+        functionFlag = true;
+    }
+
+    public void resetFunctionFlag() {
+        functionFlag = false;
     }
 
 }
