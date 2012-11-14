@@ -1,7 +1,7 @@
 package desktopClient;
 
+import calculator.CalculationException;
 import calculator.Calculator;
-import calculator.exception.CalculationException;
 import consoleClient.ConsoleClient;
 
 import javax.swing.*;

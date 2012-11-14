@@ -1,7 +1,7 @@
 package stateMachine.processor;
 
 import calculator.Context;
-import finiteStateMachine.exception.ProcessingException;
+import finiteStateMachine.StateMachineException;
 import stateMachine.State;
 
 import java.math.BigDecimal;
@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 public class FinishProcessor extends AbstractProcessor {
 
     @Override
-    public boolean process(Context context, State state) throws ProcessingException {
+    public boolean process(Context context, State state) throws StateMachineException {
 
         while (!context.isStorageEmpty()) {
 
             if (context.getParenthesisFlag()) {
-                throw new ProcessingException("Not matched left parenthesis.", context.getStartPosition());
+                throw new StateMachineException("Not matched left parenthesis.", context.getStartPosition());
             }
 
             BigDecimal operand = performLastComputation(context);

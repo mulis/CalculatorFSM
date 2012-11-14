@@ -1,7 +1,7 @@
 package stateMachine.processor;
 
 import calculator.Context;
-import finiteStateMachine.exception.ProcessingException;
+import finiteStateMachine.StateMachineException;
 import stateMachine.State;
 
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class FunctionArgumentSeparatorProcessor extends AbstractProcessor {
 
     @Override
-    public boolean process(Context context, State state) throws ProcessingException {
+    public boolean process(Context context, State state) throws StateMachineException {
 
         if (context.getComputations().isEmpty()) {
 
@@ -26,7 +26,7 @@ public class FunctionArgumentSeparatorProcessor extends AbstractProcessor {
         }
 
         context.store();
-        context.setParenthesisFlag();
+        context.setParenthesisFlag(true);
 
         return true;
 

@@ -10,8 +10,8 @@ public enum State {
     OPERATOR(new Recognizer(Operation.getPattern()), new OperationProcessor()),
     FUNCTION(new Recognizer(Function.getPattern()), new FunctionProcessor()),
     FUNCTION_ARGUMENT_SEPARATOR(new Recognizer("\\G\\,"), new FunctionArgumentSeparatorProcessor()),
-    PARENTHESIS_LEFT(new Recognizer("\\G\\("), new ParenthesisProcessor()),
-    PARENTHESIS_RIGHT(new Recognizer("\\G\\)"), new ParenthesisProcessor()),
+    PARENTHESIS_LEFT(new Recognizer("\\G\\("), new ParenthesisLeftProcessor()),
+    PARENTHESIS_RIGHT(new Recognizer("\\G\\)"), new ParenthesisRightProcessor()),
     FINISH(new Recognizer("\\G$"), new FinishProcessor());
 
     private final Recognizer recognizer;

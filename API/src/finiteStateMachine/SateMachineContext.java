@@ -2,7 +2,7 @@ package finiteStateMachine;
 
 import java.util.List;
 
-public interface ISateMachineContext<State> {
+public interface SateMachineContext<State> {
 
     public String getExpression();
 

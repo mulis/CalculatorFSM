@@ -1,13 +1,12 @@
 package calculator;
 
-import calculator.exception.CalculationException;
-import finiteStateMachine.exception.StateMachineException;
+import finiteStateMachine.StateMachineException;
 import stateMachine.StateMachine;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public class Calculator implements IMathExpressionCalculator {
+public class Calculator implements MathExpressionCalculator {
 
     @Override
     public BigDecimal calculate(String expression) throws CalculationException {

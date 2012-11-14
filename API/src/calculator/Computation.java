@@ -3,7 +3,7 @@ package calculator;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public interface IComputation {
+public interface Computation {
 
     public String getSymbol();
 

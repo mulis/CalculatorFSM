@@ -1,11 +1,11 @@
 package stateMachine;
 
-import calculator.IComputation;
+import calculator.Computation;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public enum Operation implements IComputation {
+public enum Operation implements Computation {
 
     ADDITION("+", 2, 1) {
         @Override
@@ -48,7 +48,6 @@ public enum Operation implements IComputation {
         this.priority = priority;
     }
 
-    @Override
     public String getSymbol() {
         return symbol;
     }
@@ -58,7 +57,6 @@ public enum Operation implements IComputation {
         return count == operandCount;
     }
 
-    @Override
     public int getPriority() {
         return priority;
     }
@@ -78,7 +76,7 @@ public enum Operation implements IComputation {
         StringBuilder pattern = new StringBuilder();
 
         for (Operation operation : Operation.values()) {
-            pattern.append("\\G\\").append(operation.symbol).append("|");
+            pattern.append("\\G\\").append(operation.getSymbol()).append("|");
         }
 
         if (pattern.length() > 0) {

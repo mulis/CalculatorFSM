@@ -1,4 +1,4 @@
-package finiteStateMachine.exception;
+package finiteStateMachine;
 
 public class StateMachineException extends Exception {
 

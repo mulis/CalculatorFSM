@@ -1,13 +1,13 @@
 package stateMachine;
 
 import calculator.Context;
-import finiteStateMachine.IStateRecognizer;
-import finiteStateMachine.exception.RecognitionException;
+import finiteStateMachine.StateMachineException;
+import finiteStateMachine.StateRecognizer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Recognizer implements IStateRecognizer<Context, State> {
+public class Recognizer implements StateRecognizer<Context, State> {
 
     private final Matcher matcher;
 
@@ -20,7 +20,7 @@ public class Recognizer implements IStateRecognizer<Context, State> {
     }
 
     @Override
-    public boolean recognize(Context context, State state) throws RecognitionException {
+    public boolean recognize(Context context, State state) throws StateMachineException {
 
         matcher.reset(context.getExpression());
 

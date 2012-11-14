@@ -2,11 +2,9 @@ package finiteStateMachine;
 
 import java.util.Set;
 
-public interface IStateTransitionMatrix<State> {
+public interface StateTransitionMatrix<State> {
 
     public State getStartState();
-
-    public State getBlankState();
 
     public State getFinishState();
 

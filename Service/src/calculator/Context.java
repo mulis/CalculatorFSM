@@ -1,6 +1,6 @@
 package calculator;
 
-import finiteStateMachine.ISateMachineContext;
+import finiteStateMachine.SateMachineContext;
 import stateMachine.State;
 
 import java.math.BigDecimal;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class Context implements ISateMachineContext<State> {
+public class Context implements SateMachineContext<State> {
 
     private final String expression;
     private final MathContext mathContext;
@@ -22,13 +22,13 @@ public class Context implements ISateMachineContext<State> {
     private State lastProcessedState;
 
     private final Deque<BigDecimal> values = new ArrayDeque<BigDecimal>();
-    private final Deque<IComputation> computations = new ArrayDeque<IComputation>();
+    private final Deque<Computation> computations = new ArrayDeque<Computation>();
     private Boolean parenthesisFlag = false;
     private Boolean functionFlag = false;
     private int startPosition;
 
-    private final Deque<Deque> valuesStorage = new ArrayDeque<Deque>();
-    private final Deque<Deque> computationsStorage = new ArrayDeque<Deque>();
+    private final Deque<Deque<BigDecimal>> valuesStorage = new ArrayDeque<Deque<BigDecimal>>();
+    private final Deque<Deque<Computation>> computationsStorage = new ArrayDeque<Deque<Computation>>();
     private final Deque<Boolean> parenthesisFlagStorage = new ArrayDeque<Boolean>();
     private final Deque<Boolean> functionFlagStorage = new ArrayDeque<Boolean>();
     private final Deque<Integer> startPositionStorage = new ArrayDeque<Integer>();
@@ -98,30 +98,30 @@ public class Context implements ISateMachineContext<State> {
         lastProcessedState = state;
     }
 
-    public void addValue(BigDecimal operand) {
-        values.addLast(operand);
+    public void addValue(BigDecimal value) {
+        values.addLast(value);
     }
 
     public Deque<BigDecimal> getValues() {
         return values;
     }
 
-    public void addComputation(IComputation computation) {
+    public void addComputation(Computation computation) {
         computations.add(computation);
     }
 
-    public Deque<IComputation> getComputations() {
+    public Deque<Computation> getComputations() {
         return computations;
     }
 
-    public IComputation getLastComputation() {
+    public Computation peekLastComputation() {
         return computations.peek();
     }
 
     public void store() {
         valuesStorage.addLast(new ArrayDeque<BigDecimal>(values));
         values.clear();
-        computationsStorage.addLast(new ArrayDeque<IComputation>(computations));
+        computationsStorage.addLast(new ArrayDeque<Computation>(computations));
         computations.clear();
         parenthesisFlagStorage.addLast(parenthesisFlag);
         parenthesisFlag = false;
@@ -153,24 +153,16 @@ public class Context implements ISateMachineContext<State> {
         return parenthesisFlag;
     }
 
-    public void setParenthesisFlag() {
-        parenthesisFlag = true;
-    }
-
-    public void resetParenthesisFlag() {
-        parenthesisFlag = false;
+    public void setParenthesisFlag(boolean flag) {
+        parenthesisFlag = flag;
     }
 
     public Boolean getFunctionFlag() {
         return functionFlag;
     }
 
-    public void setFunctionFlag() {
-        functionFlag = true;
-    }
-
-    public void resetFunctionFlag() {
-        functionFlag = false;
+    public void setFunctionFlag(boolean flag) {
+        functionFlag = flag;
     }
 
 }

@@ -1,11 +1,11 @@
 package stateMachine;
 
-import calculator.IComputation;
+import calculator.Computation;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public enum Function implements IComputation {
+public enum Function implements Computation {
 
     SQR("sqr", 1, 1, 3) {
         @Override
@@ -20,7 +20,7 @@ public enum Function implements IComputation {
             for (int i = 1; i < values.length; ++i) {
                 result = result.min(values[i]);
             }
-            return result;
+            return result.multiply(BigDecimal.ONE, mathContext);
         }
     },
     MAX("max", 2, Integer.MAX_VALUE, 3) {
@@ -30,7 +30,7 @@ public enum Function implements IComputation {
             for (int i = 1; i < values.length; ++i) {
                 result = result.max(values[i]);
             }
-            return result;
+            return result.multiply(BigDecimal.ONE, mathContext);
         }
     },
     SUM("sum", 2, Integer.MAX_VALUE, 3) {
@@ -82,7 +82,7 @@ public enum Function implements IComputation {
 
     @Override
     public boolean checkValuesCount(int count) {
-        return count >= minArgumentCount && count <= maxArgumentCount;
+        return count >= getMinArgumentCount() && count <= getMaxArgumentCount();
     }
 
     public static Function getFunction(String symbol) {
@@ -100,7 +100,7 @@ public enum Function implements IComputation {
         StringBuilder pattern = new StringBuilder();
 
         for (Function function : Function.values()) {
-            pattern.append("\\G").append(function.symbol).append("|");
+            pattern.append("\\G").append(function.getSymbol()).append("|");
         }
 
         if (pattern.length() > 0) {

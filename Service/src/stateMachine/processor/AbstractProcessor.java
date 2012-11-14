@@ -1,30 +1,37 @@
 package stateMachine.processor;
 
+import calculator.Computation;
 import calculator.Context;
-import calculator.IComputation;
-import finiteStateMachine.IStateProcessor;
-import finiteStateMachine.exception.ProcessingException;
+import finiteStateMachine.StateMachineException;
+import finiteStateMachine.StateProcessor;
 import stateMachine.State;
 
 import java.math.BigDecimal;
 
-public abstract class AbstractProcessor implements IStateProcessor<Context, State> {
+public abstract class AbstractProcessor implements StateProcessor<Context, State> {
 
-    public BigDecimal performLastComputation(Context context) throws ProcessingException {
+    protected BigDecimal performLastComputation(Context context) throws StateMachineException {
 
-        IComputation computation = context.getComputations().removeLast();
+        Computation computation = context.getComputations().removeLast();
 
         if (!computation.checkValuesCount(context.getValues().size())) {
-            throw new ProcessingException("Value count not acceptable.", context.getStartPosition());
+            throw new StateMachineException("Value count not acceptable.", context.getStartPosition());
         }
 
         BigDecimal[] values = getValuesArray(context);
+        BigDecimal result;
 
-        return computation.compute(values, context.getMathContext());
+        try {
+            result = computation.compute(values, context.getMathContext());
+        } catch (Exception exception) {
+            throw new StateMachineException("Values not acceptable.", context.getStartPosition());
+        }
+
+        return result;
 
     }
 
-    public BigDecimal[] getValuesArray(Context context) {
+    protected BigDecimal[] getValuesArray(Context context) {
 
         BigDecimal[] values = new BigDecimal[context.getValues().size()];
 

@@ -1,11 +1,8 @@
 package finiteStateMachine;
 
-import finiteStateMachine.exception.NextStateNotFoundException;
-import finiteStateMachine.exception.StateMachineException;
-
 import java.util.List;
 
-public abstract class AbstractFiniteStateMachine<Context extends ISateMachineContext<State>, State> {
+public abstract class AbstractFiniteStateMachine<Context extends SateMachineContext<State>, State> {
 
     public List<State> run(Context context) throws StateMachineException {
 
@@ -40,14 +37,14 @@ public abstract class AbstractFiniteStateMachine<Context extends ISateMachineCon
 
         }
 
-        throw new NextStateNotFoundException("Unexpected element.", context.getPosition());
+        throw new StateMachineException("Unexpected element.", context.getPosition());
 
     }
 
-    public abstract IStateTransitionMatrix<State> getTransitionMatrix();
+    public abstract StateTransitionMatrix<State> getTransitionMatrix();
 
-    public abstract IStateRecognizer<Context, State> getRecognizer(State state);
+    public abstract StateRecognizer<Context, State> getRecognizer(State state);
 
-    public abstract IStateProcessor<Context, State> getProcessor(State state);
+    public abstract StateProcessor<Context, State> getProcessor(State state);
 
 }
