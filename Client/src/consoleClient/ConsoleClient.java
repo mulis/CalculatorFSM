@@ -19,7 +19,6 @@ public class ConsoleClient {
                 calculator = new Calculator();
 
                 // discover keys
-                boolean console = true;
                 Integer precision = null;
                 boolean verbose = false;
                 boolean interactive = false;
@@ -27,8 +26,7 @@ public class ConsoleClient {
                 String expression = null;
 
                 for (String arg : args) {
-                    if (arg.equalsIgnoreCase("-c")) console = true;
-                    else if (arg.toLowerCase().startsWith("-p:")) precision = Integer.decode(args[2].substring(3));
+                    if (arg.toLowerCase().startsWith("-p:")) precision = Integer.decode(arg.substring(3));
                         //else if (arg.equalsIgnoreCase("-v")) verbose = true;
                     else if (arg.equalsIgnoreCase("-i")) interactive = true;
                     else if (arg.equalsIgnoreCase("-h")) help = true;
@@ -41,7 +39,7 @@ public class ConsoleClient {
                     help();
                 } else if (interactive) {
                     interactive(verbose);
-                } else if (console) {
+                } else {
                     console(expression, verbose);
                 }
 
