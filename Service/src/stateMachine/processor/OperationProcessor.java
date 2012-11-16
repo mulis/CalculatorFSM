@@ -5,8 +5,6 @@ import finiteStateMachine.StateMachineException;
 import stateMachine.Operation;
 import stateMachine.State;
 
-import java.math.BigDecimal;
-
 public class OperationProcessor extends AbstractProcessor {
 
     @Override
@@ -15,28 +13,21 @@ public class OperationProcessor extends AbstractProcessor {
         String symbol = state.getRecognizer().getMatcher().group();
         Operation operation = Operation.getOperation(symbol);
 
-        if (context.getComputations().isEmpty()) {
+        if (!context.getComputations().isEmpty()) {
 
-            context.addComputation(operation);
+            if (operation.getPriority() > ((Operation) context.peekLastComputation()).getPriority()) {
 
-        } else {
-
-            if (context.peekLastComputation().getPriority() >= operation.getPriority()) {
-
-                BigDecimal operand = performLastComputation(context);
-                context.addValue(operand);
-                context.addComputation(operation);
+                openContext(context);
 
             } else {
 
-                BigDecimal operand = context.getValues().removeLast();
-                context.store();
-                context.addValue(operand);
-                context.addComputation(operation);
+                performComputation(context);
 
             }
 
         }
+
+        context.addComputation(operation);
 
         return true;
 

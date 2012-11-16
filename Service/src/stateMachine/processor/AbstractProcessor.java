@@ -10,12 +10,41 @@ import java.math.BigDecimal;
 
 public abstract class AbstractProcessor implements StateProcessor<Context, State> {
 
-    protected BigDecimal performLastComputation(Context context) throws StateMachineException {
+    protected void openContext(Context context) throws StateMachineException {
+
+        BigDecimal value = context.getValues().removeLast();
+        context.store();
+        context.addValue(value);
+
+    }
+
+    protected void closeContext(Context context) throws StateMachineException {
+
+        BigDecimal[] values = getValuesArray(context);
+        context.restore();
+        for (BigDecimal value : values) {
+            context.addValue(value);
+        }
+
+    }
+
+    protected void performComputation(Context context) throws StateMachineException {
+
+        if (!context.getComputations().isEmpty()) {
+
+            BigDecimal value = performLastComputation(context);
+            context.addValue(value);
+
+        }
+
+    }
+
+    private BigDecimal performLastComputation(Context context) throws StateMachineException {
 
         Computation computation = context.getComputations().removeLast();
 
         if (!computation.checkValuesCount(context.getValues().size())) {
-            throw new StateMachineException("Value count not acceptable.", context.getStartPosition());
+            throw new StateMachineException("Values count not acceptable.", context.getStartPosition());
         }
 
         BigDecimal[] values = getValuesArray(context);
@@ -31,7 +60,7 @@ public abstract class AbstractProcessor implements StateProcessor<Context, State
 
     }
 
-    protected BigDecimal[] getValuesArray(Context context) {
+    private BigDecimal[] getValuesArray(Context context) {
 
         BigDecimal[] values = new BigDecimal[context.getValues().size()];
 

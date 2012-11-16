@@ -4,8 +4,6 @@ import calculator.Context;
 import finiteStateMachine.StateMachineException;
 import stateMachine.State;
 
-import java.math.BigDecimal;
-
 public class FinishProcessor extends AbstractProcessor {
 
     @Override
@@ -17,17 +15,12 @@ public class FinishProcessor extends AbstractProcessor {
                 throw new StateMachineException("Not matched left parenthesis.", context.getStartPosition());
             }
 
-            BigDecimal operand = performLastComputation(context);
-            context.restore();
-            context.addValue(operand);
+            performComputation(context);
+            closeContext(context);
 
         }
 
-        if (!context.getComputations().isEmpty()) {
-
-            BigDecimal operand = performLastComputation(context);
-            context.addValue(operand);
-        }
+        performComputation(context);
 
         return true;
 

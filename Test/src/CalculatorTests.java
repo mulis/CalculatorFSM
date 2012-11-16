@@ -184,10 +184,13 @@ public class CalculatorTests {
     @Test
     public void mathContextTest() throws CalculationException {
 
-        assertEquals("Result of expression calculated with mathContext", new BigDecimal(0.010, new MathContext(2)), calculator.calculate(" sqr(0.0001) ", new MathContext(2)));
+        assertEquals("Result of expression calculated with mathContext", valueOf(0.67), calculator.calculate(" 2/3 ", new MathContext(2)));
+        assertEquals("Result of expression calculated with mathContext", valueOf(1.7), calculator.calculate(" 5/3 ", new MathContext(2)));
+        assertEquals("Result of expression calculated with mathContext", new BigDecimal(0.01, new MathContext(2)), calculator.calculate(" sqr(0.0001) ", new MathContext(2)));
         assertEquals("Result of expression calculated with mathContext", valueOf(1.0), calculator.calculate(" min(1, 1.11111, 0.99999) ", new MathContext(2)));
         assertEquals("Result of expression calculated with mathContext", valueOf(1.1), calculator.calculate(" max(1, 1.11111, 0.99999) ", new MathContext(2)));
         assertEquals("Result of expression calculated with mathContext", valueOf(3.1), calculator.calculate(" sum(1, 1.11111, 0.99999) ", new MathContext(2)));
+        assertEquals("Result of expression calculated with mathContext", valueOf(2.1), calculator.calculate(" sum(1, 1.01, 0.04) ", new MathContext(2)));
 
     }
 

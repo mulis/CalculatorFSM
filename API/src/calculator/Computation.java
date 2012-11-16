@@ -7,8 +7,6 @@ public interface Computation {
 
     public String getSymbol();
 
-    public int getPriority();
-
     public boolean checkValuesCount(int count);
 
     public abstract BigDecimal compute(BigDecimal[] values, MathContext mathContext);

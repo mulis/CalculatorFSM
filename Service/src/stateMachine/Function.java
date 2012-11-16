@@ -7,13 +7,13 @@ import java.math.MathContext;
 
 public enum Function implements Computation {
 
-    SQR("sqr", 1, 1, 3) {
+    SQR("sqr", 1, 1) {
         @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return new BigDecimal(Math.sqrt(values[0].doubleValue()), mathContext);
         }
     },
-    MIN("min", 2, Integer.MAX_VALUE, 3) {
+    MIN("min", 2, Integer.MAX_VALUE) {
         @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             BigDecimal result = values[0];
@@ -23,7 +23,7 @@ public enum Function implements Computation {
             return result.multiply(BigDecimal.ONE, mathContext);
         }
     },
-    MAX("max", 2, Integer.MAX_VALUE, 3) {
+    MAX("max", 2, Integer.MAX_VALUE) {
         @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             BigDecimal result = values[0];
@@ -33,17 +33,17 @@ public enum Function implements Computation {
             return result.multiply(BigDecimal.ONE, mathContext);
         }
     },
-    SUM("sum", 2, Integer.MAX_VALUE, 3) {
+    SUM("sum", 2, Integer.MAX_VALUE) {
         @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             BigDecimal result = values[0];
             for (int i = 1; i < values.length; ++i) {
-                result = result.add(values[i], mathContext);
+                result = result.add(values[i]);
             }
-            return result;
+            return result.multiply(BigDecimal.ONE, mathContext);
         }
     },
-    PI("pi", 0, 0, 3) {
+    PI("pi", 0, 0) {
         @Override
         public BigDecimal compute(BigDecimal[] values, MathContext mathContext) {
             return new BigDecimal(Math.PI, mathContext);
@@ -53,13 +53,11 @@ public enum Function implements Computation {
     private final String symbol;
     private final int minArgumentCount;
     private final int maxArgumentCount;
-    private final int priority;
 
-    Function(String symbol, int minArgumentCount, int maxArgumentCount, int priority) {
+    Function(String symbol, int minArgumentCount, int maxArgumentCount) {
         this.symbol = symbol;
         this.minArgumentCount = minArgumentCount;
         this.maxArgumentCount = maxArgumentCount;
-        this.priority = priority;
     }
 
     @Override
@@ -73,11 +71,6 @@ public enum Function implements Computation {
 
     public int getMaxArgumentCount() {
         return maxArgumentCount;
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
     }
 
     @Override
