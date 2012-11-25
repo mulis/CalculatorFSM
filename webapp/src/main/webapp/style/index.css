@@ -1,0 +1,12 @@
+#expressionInput {
+    width: 400px;
+}
+
+#calculateButton {
+    width: 100px;
+}
+
+#resultTextArea {
+    width: 500px;
+    height: 250px;
+}
