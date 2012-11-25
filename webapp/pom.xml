@@ -24,6 +24,12 @@
             <version>1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mulis.calculator</groupId>
+            <artifactId>service</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!--<dependency>-->
         <!--<groupId>javax</groupId>-->
         <!--<artifactId>javaee-api</artifactId>-->

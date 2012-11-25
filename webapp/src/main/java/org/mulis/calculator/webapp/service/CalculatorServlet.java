@@ -12,9 +12,18 @@ public class CalculatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         System.out.println("-----------post-----------------");
-        resp.getWriter().println("ok post");
+
+        String expression = req.getParameter("expression");
+
+        System.out.println(expression);
+
+        CalculatorResult result = CalculatorServer.calculate(expression);
+
+        System.out.println(result.toJSON());
+
+        resp.getWriter().println(result.toJSON());
+        resp.setContentType("application/json");
         resp.setStatus(200);
-        resp.setContentType("text/plain");
 
     }
 
@@ -22,9 +31,20 @@ public class CalculatorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         System.out.println("-----------get-----------------");
+
+        String expression = req.getParameter("expression");
+
+        System.out.println(expression);
+        resp.getWriter().println(expression);
+
+        CalculatorResult result = CalculatorServer.calculate(expression);
+
+        System.out.println(result.toJSON());
+        resp.getWriter().println(result.toJSON());
+
         resp.getWriter().println("ok get");
-        resp.setStatus(200);
         resp.setContentType("text/plain");
+        resp.setStatus(200);
 
     }
 
