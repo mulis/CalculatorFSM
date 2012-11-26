@@ -1,4 +1,4 @@
-var CalculatorController = function(model, serviceURL) {
+Calculator.prototype.controller = function(model, serviceURL) {
 
     var me = this;
     this.model = model;
