@@ -6,21 +6,21 @@ var CalculatorView = function(model) {
     $(document).bind(
         CalculatorEvents.EXPRESSION_READY,
         function(aEvent) {
-            me.onExpressionReady(aEvent);
+            me.updateModel();
         }
     );
 
      $(document).bind(
         CalculatorEvents.RESULT_READY,
         function(aEvent) {
-            me.outputResult();
+            me.updateView();
         }
     );
 
     $(document).bind(
         CalculatorEvents.SERVICE_ERROR,
         function(aEvent) {
-            me.outputResult();
+            me.updateView();
         }
     );
 
@@ -43,12 +43,12 @@ var CalculatorView = function(model) {
 
 }
 
-CalculatorView.prototype.onExpressionReady = function(aEvent) {
+CalculatorView.prototype.updateModel = function() {
     CalculatorControls.calculateButton.prop('disabled', true);
     this.model.setExpression(CalculatorControls.expressionInput.val());
 }
 
-CalculatorView.prototype.outputResult = function() {
+CalculatorView.prototype.updateView = function() {
     CalculatorControls.calculateButton.prop('disabled', false);
     CalculatorControls.resultOutput.append(this.model.toString());
 }
