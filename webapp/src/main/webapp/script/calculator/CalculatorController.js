@@ -1,19 +1,11 @@
-var CalculatorController = function(model, view, serviceURL) {
+var CalculatorController = function(model, serviceURL) {
 
     var me = this;
     this.model = model;
-    this.view = view;
     this.serviceURL = serviceURL;
 
-    CalculatorControls.calculateButton.bind(
-        "click",
-        function() {
-            $(document).trigger(CalculatorEvents.EXPRESSION_READY);
-        }
-    );
-
     $(document).bind(
-        CalculatorEvents.EXPRESSION_READY,
+        CalculatorEvents.MODEL_READY,
         function() {
             me.calculate();
         }
@@ -27,9 +19,7 @@ CalculatorController.prototype.calculate = function() {
 
     $.post(
         me.serviceURL,
-        {
-            "expression" : me.model.getExpression()
-        }
+        {"expression" : me.model.getExpression()}
     )
     .success(function(data) {
         me.model.setAll(data);
