@@ -3,17 +3,18 @@
     <link rel="stylesheet" type="text/css" href="style/index.css"/>
     <!--script type="text/javascript" src="http://code.jquery.com/jquery.js"></script-->
     <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="script/calculator/calculatorModel.js"></script>
-    <script type="text/javascript" src="script/calculator/calculatorView.js"></script>
-    <script type="text/javascript" src="script/calculator/calculatorController.js"></script>
-    <script type="text/javascript" src="script/calculatorMain.js"></script>
+    <script type="text/javascript" src="script/calculator/CalculatorModel.js"></script>
+    <script type="text/javascript" src="script/calculator/CalculatorView.js"></script>
+    <script type="text/javascript" src="script/calculator/CalculatorController.js"></script>
+    <script type="text/javascript" src="script/calculator/CalculatorMain.js"></script>
 </head>
 <body>
 <h2>Let's calculate something!</h2>
 <label for="expressionInput">Expression: </label><br/>
-<input type="text" id="expressionInput"/>
+<input type="text" id="expressionInput" value="2+3"/>
 <input type="button" id="calculateButton" value="Calculate"/><br/>
 <label for="resultTextArea">Result: </label><br/>
 <textarea id="resultTextArea"></textarea>
+<input type="button" id="clearButton" value="Clear"/><br/>
 </body>
 </html>

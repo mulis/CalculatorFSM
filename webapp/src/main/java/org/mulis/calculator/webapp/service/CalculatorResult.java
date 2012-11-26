@@ -6,15 +6,18 @@ import java.math.BigDecimal;
 
 public class CalculatorResult {
 
+    private String expression = "";
     private String result = "";
     private String error = "";
     private int position = -1;
 
-    public CalculatorResult(BigDecimal result) {
+    public CalculatorResult(String expression, BigDecimal result) {
+        this.expression = expression;
         this.result = result.toString();
     }
 
-    public CalculatorResult(CalculationException exception) {
+    public CalculatorResult(String expression, CalculationException exception) {
+        this.expression = expression;
         this.error = exception.getMessage();
         this.position = exception.getPosition();
     }
@@ -34,9 +37,10 @@ public class CalculatorResult {
     public String toJSON() {
         StringBuilder builder = new StringBuilder();
         builder.append("{");
-        builder.append("result:").append("\"").append(result).append("\"").append(",");
-        builder.append("error:").append("\"").append(error).append("\"").append(",");
-        builder.append("position:").append("\"").append(position).append("\"");
+        builder.append("\"expression\":\"").append(expression).append("\",");
+        builder.append("\"result\":\"").append(result).append("\",");
+        builder.append("\"error\":\"").append(error).append("\",");
+        builder.append("\"position\":\"").append(position).append("\"");
         builder.append("}");
         return builder.toString();
     }

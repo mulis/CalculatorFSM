@@ -13,11 +13,11 @@ public class CalculatorServer {
 
             Calculator calculator = new Calculator();
 
-            result = new CalculatorResult(calculator.calculate(expression));
+            result = new CalculatorResult(expression, calculator.calculate(expression));
 
         } catch (CalculationException exception) {
 
-            result = new CalculatorResult(exception);
+            result = new CalculatorResult(expression, exception);
 
         }
 

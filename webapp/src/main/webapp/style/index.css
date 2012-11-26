@@ -1,8 +1,12 @@
 #expressionInput {
-    width: 400px;
+    width: 500px;
 }
 
 #calculateButton {
+    width: 100px;
+}
+
+#clearButton {
     width: 100px;
 }
 
