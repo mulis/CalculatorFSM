@@ -5,16 +5,16 @@ Calculator.prototype.View = function(calculator) {
     this.calculator = calculator;
     
     this.controls = {
-         expressionInput : $("#expressionInput"),
-         calculateButton : $("#calculateButton"),
-         resultOutput : $("#resultTextArea"),
-         clearButton : $("#clearButton")
+         expressionInput : this.calculator.element.find(".calculator-expressionInput"),
+         calculateButton : this.calculator.element.find(".calculator-calculateButton"),
+         resultOutput : this.calculator.element.find(".calculator-resultTextArea"),
+         clearButton : this.calculator.element.find(".calculator-clearButton")
      }
 
     this.controls.calculateButton.bind(
         "click",
         function() {
-            $(document).trigger(calculator.events.EXPRESSION_READY);
+            me.calculator.element.trigger(calculator.events.EXPRESSION_READY);
         }
     );
 
@@ -23,7 +23,7 @@ Calculator.prototype.View = function(calculator) {
         function(aEvent) {
             var keycode = (aEvent.keyCode ? aEvent.keyCode : aEvent.which);
             if(keycode == "13"){
-                $(document).trigger(calculator.events.EXPRESSION_READY);
+                me.calculator.element.trigger(calculator.events.EXPRESSION_READY);
             }
         }
     );
@@ -35,16 +35,16 @@ Calculator.prototype.View = function(calculator) {
         }
     );
 
-    $(document).bind(
+    $(this.calculator.element).bind(
         calculator.events.EXPRESSION_READY,
         function(aEvent) {
             me.updateModel();
-            $(document).trigger(calculator.events.MODEL_READY);
+            me.calculator.element.trigger(calculator.events.MODEL_READY);
             me.disableCalculateButton();
         }
     );
 
-     $(document).bind(
+     $(this.calculator.element).bind(
         calculator.events.RESULT_READY,
         function(aEvent) {
             me.updateView();
@@ -52,7 +52,7 @@ Calculator.prototype.View = function(calculator) {
         }
     );
 
-    $(document).bind(
+    $(this.calculator.element).bind(
         calculator.events.SERVICE_ERROR,
         function(aEvent) {
             me.updateView();
