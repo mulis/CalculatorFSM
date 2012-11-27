@@ -1,5 +1,3 @@
-//var CalculatorEvents;
-
 var Calculator = function(elementID) {
 
     this.element = $("#" + elementID);
@@ -18,7 +16,3 @@ var Calculator = function(elementID) {
     this.controller = new Calculator.prototype.Controller(this);
 
 };
-
-Calculator.prototype.init = function() {
-//    this.model = new Calculator.prototype.Model();
-}

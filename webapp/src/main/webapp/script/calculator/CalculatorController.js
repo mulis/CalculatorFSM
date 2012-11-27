@@ -4,7 +4,7 @@ Calculator.prototype.Controller = function(calculator) {
 
     this.calculator = calculator;
 
-    $(document).bind(
+    $(this.calculator.element).bind(
         calculator.events.MODEL_READY,
         function() {
             me.calculate();
@@ -23,11 +23,11 @@ Calculator.prototype.Controller.prototype.calculate = function() {
     )
     .success(function(data) {
         me.calculator.model.setAll(data);
-        $(document).trigger(me.calculator.events.RESULT_READY);
+        me.calculator.element.trigger(me.calculator.events.RESULT_READY);
      })
     .error(function(data) {
         me.calculator.model.setAll({"error":"Calculation service error"});
-        $(document).trigger(me.calculator.events.SERVICE_ERROR);
+        me.calculator.element.trigger(me.calculator.events.SERVICE_ERROR);
     })
     .complete(function(data) {
     });

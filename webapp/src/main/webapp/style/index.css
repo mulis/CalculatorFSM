@@ -1,16 +1,16 @@
-#expressionInput {
+.calculator-expressionInput {
     width: 500px;
 }
 
-#calculateButton {
+.calculator-calculateButton {
     width: 100px;
 }
 
-#clearButton {
+.calculator-clearButton {
     width: 100px;
 }
 
-#resultTextArea {
+.calculator-resultTextArea {
     width: 500px;
     height: 250px;
 }
