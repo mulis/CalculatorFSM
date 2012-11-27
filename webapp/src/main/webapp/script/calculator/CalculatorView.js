@@ -1,7 +1,9 @@
-var CalculatorView = function(model) {
+Calculator.prototype.View = function(calculator) {
 
     var me = this;
-    this.model = model;
+
+    this.calculator = calculator;
+    
     this.controls = {
          expressionInput : $("#expressionInput"),
          calculateButton : $("#calculateButton"),
@@ -12,7 +14,7 @@ var CalculatorView = function(model) {
     this.controls.calculateButton.bind(
         "click",
         function() {
-            $(document).trigger(CalculatorEvents.EXPRESSION_READY);
+            $(document).trigger(calculator.events.EXPRESSION_READY);
         }
     );
 
@@ -21,7 +23,7 @@ var CalculatorView = function(model) {
         function(aEvent) {
             var keycode = (aEvent.keyCode ? aEvent.keyCode : aEvent.which);
             if(keycode == "13"){
-                $(document).trigger(CalculatorEvents.EXPRESSION_READY);
+                $(document).trigger(calculator.events.EXPRESSION_READY);
             }
         }
     );
@@ -34,16 +36,16 @@ var CalculatorView = function(model) {
     );
 
     $(document).bind(
-        CalculatorEvents.EXPRESSION_READY,
+        calculator.events.EXPRESSION_READY,
         function(aEvent) {
             me.updateModel();
-            $(document).trigger(CalculatorEvents.MODEL_READY);
+            $(document).trigger(calculator.events.MODEL_READY);
             me.disableCalculateButton();
         }
     );
 
      $(document).bind(
-        CalculatorEvents.RESULT_READY,
+        calculator.events.RESULT_READY,
         function(aEvent) {
             me.updateView();
             me.enableCalculateButton();
@@ -51,7 +53,7 @@ var CalculatorView = function(model) {
     );
 
     $(document).bind(
-        CalculatorEvents.SERVICE_ERROR,
+        calculator.events.SERVICE_ERROR,
         function(aEvent) {
             me.updateView();
             me.enableCalculateButton();
@@ -60,23 +62,23 @@ var CalculatorView = function(model) {
 
 }
 
-CalculatorView.prototype.updateModel = function() {
-    this.model.setExpression(this.controls.expressionInput.val());
+Calculator.prototype.View.prototype.updateModel = function() {
+    this.calculator.model.setExpression(this.controls.expressionInput.val());
 }
 
-CalculatorView.prototype.updateView = function() {
-    this.controls.resultOutput.append(this.model.toString());
+Calculator.prototype.View.prototype.updateView = function() {
+    this.controls.resultOutput.append(this.calculator.model.toString());
 }
 
-CalculatorView.prototype.enableCalculateButton = function() {
+Calculator.prototype.View.prototype.enableCalculateButton = function() {
     this.controls.calculateButton.prop('disabled', false);
 }
 
-CalculatorView.prototype.disableCalculateButton = function() {
+Calculator.prototype.View.prototype.disableCalculateButton = function() {
     this.controls.calculateButton.prop('disabled', true);
 }
 
-CalculatorView.prototype.clearResultOutput = function() {
+Calculator.prototype.View.prototype.clearResultOutput = function() {
     this.controls.resultOutput.text("");
 }
 

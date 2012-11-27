@@ -1,11 +1,11 @@
-Calculator.prototype.controller = function(model, serviceURL) {
+Calculator.prototype.Controller = function(calculator) {
 
     var me = this;
-    this.model = model;
-    this.serviceURL = serviceURL;
+
+    this.calculator = calculator;
 
     $(document).bind(
-        CalculatorEvents.MODEL_READY,
+        calculator.events.MODEL_READY,
         function() {
             me.calculate();
         }
@@ -13,21 +13,21 @@ Calculator.prototype.controller = function(model, serviceURL) {
 
 }
 
-CalculatorController.prototype.calculate = function() {
+Calculator.prototype.Controller.prototype.calculate = function() {
 
     var me = this;
 
     $.post(
-        me.serviceURL,
-        {"expression" : me.model.getExpression()}
+        me.calculator.serviceURL,
+        {"expression" : me.calculator.model.getExpression()}
     )
     .success(function(data) {
-        me.model.setAll(data);
-        $(document).trigger(CalculatorEvents.RESULT_READY);
+        me.calculator.model.setAll(data);
+        $(document).trigger(me.calculator.events.RESULT_READY);
      })
     .error(function(data) {
-        me.model.setAll({"error":"Calculation service error"});
-        $(document).trigger(CalculatorEvents.SERVICE_ERROR);
+        me.calculator.model.setAll({"error":"Calculation service error"});
+        $(document).trigger(me.calculator.events.SERVICE_ERROR);
     })
     .complete(function(data) {
     });
