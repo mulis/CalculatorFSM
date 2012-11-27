@@ -1,6 +1,5 @@
 .idea
 *.iml
-*.iml2
 out
 target
 *.log

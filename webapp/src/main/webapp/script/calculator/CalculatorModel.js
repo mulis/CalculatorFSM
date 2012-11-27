@@ -5,10 +5,10 @@ Calculator.prototype.Model = function(calculator) {
     this.calculator = calculator;
 
     this.properties = {
-        expression : "",
-        result : "",
-        error : "",
-        position : -1
+        "expression" : "",
+        "result" : "",
+        "error" : "",
+        "position" : -1
     };
 
 };

@@ -11,7 +11,7 @@ Calculator.prototype.Controller = function(calculator) {
         }
     );
 
-}
+};
 
 Calculator.prototype.Controller.prototype.calculate = function() {
 
@@ -30,7 +30,7 @@ Calculator.prototype.Controller.prototype.calculate = function() {
         me.calculator.element.trigger(me.calculator.events.SERVICE_ERROR);
     })
     .complete(function(data) {
-    });
+    })
     ;
 
-}
+};
