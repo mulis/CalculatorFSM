@@ -41,7 +41,9 @@ Calculator.prototype.View.prototype.updateModel = function() {
 };
 
 Calculator.prototype.View.prototype.updateView = function() {
-    this.controls.resultOutput.append(this.calculator.model.toString() + "\n");
+    var output = this.controls.resultOutput;
+    output.append(this.calculator.model.toString() + "\n");
+    output.scrollTop(output[0].scrollHeight - output.height());
 };
 
 Calculator.prototype.View.prototype.enableCalculateButton = function() {

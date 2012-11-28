@@ -1,9 +1,7 @@
-var Calculator = function(elementID) {
+var Calculator = function(elementID, serviceURL) {
 
     this.element = $("#" + elementID);
-
-    this.serviceURL = "http://localhost:8080/calculator/calculate";
-
+    this.serviceURL = serviceURL;
     this.events = {
         EXPRESSION_READY : "expression-ready",
         MODEL_READY : "model-ready",
