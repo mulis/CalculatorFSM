@@ -1,21 +1,37 @@
 <style>
 .calculator-layout-table {
+    table-layout: fixed;
+    width: 40em;
     padding: 2em;
     border: groove;
-    font-family: monospace;
+    background-color: whitesmoke;
 }
 .calculator-layout-table td {
-    width: 6em;
+    awidth: 6em;
     height: 6em;
 }
 .calculator-layout-table td input {
     color: gray;
+    font-family: monospace;
+    font-weight: bold;
     font-size: 2em;
 }
 .calculator-display {
     width: 100%;
     height: 100%;
+    border: inset;
+    padding: 0.5em 0em;
+    overflow: hidden;
+    overflow-x: scroll;
+    background-color: beige;
+    color: gray;
     text-align: right;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 3em;
+}
+.calculator-display-error {
+    background-color: red;
 }
 .calculator-button, .calculator-button-clear, .calculator-button-delete, .calculator-button-calculate {
     width: 100%;
@@ -25,7 +41,7 @@
 <table class="calculator-layout-table">
     <tr>
         <td colspan="4">
-            <input type="text" class="calculator-display" readOnly="true" value="2+3" />
+            <div class="calculator-display" />
         </td>
     <tr>
         <td>

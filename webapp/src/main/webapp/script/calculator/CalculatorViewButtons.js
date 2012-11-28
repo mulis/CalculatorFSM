@@ -37,11 +37,27 @@ Calculator.prototype.View = function(calculator) {
 };
 
 Calculator.prototype.View.prototype.updateModel = function() {
-    this.calculator.model.setExpression(this.controls.display.val());
+    this.calculator.model.setExpression(this.controls.display.text());
 };
 
 Calculator.prototype.View.prototype.updateView = function() {
-    this.controls.display.val(this.calculator.model.toString());
+    if (this.calculator.model.getError() == "") {
+        this.controls.display.text(this.calculator.model.toString());
+    }
+    else {
+        var expression = this.calculator.model.getExpression();
+        if (!expression) {
+            expression = "";
+        }
+        var position = this.calculator.model.getPosition();
+        if (!position) {
+            position = 0;
+        }
+        var out = expression.substring(0, position) +
+            "<span class='calculator-display-error'>" +
+            expression.substring(position) + "</span>";
+        this.controls.display.html(out);
+    }
 };
 
 Calculator.prototype.View.prototype.enableCalculateButton = function() {
@@ -94,23 +110,23 @@ Calculator.prototype.View.prototype.initControls = function() {
     this.controls.symbolButton.bind(
         "click",
         function() {
-            me.controls.display.val(me.controls.display.val() + $(this).val());
+            me.controls.display.text(me.controls.display.text() + $(this).val());
         }
     );
 
     this.controls.clearButton.bind(
         "click",
         function() {
-            me.controls.display.val("");
+            me.controls.display.text("");
         }
     );
 
     this.controls.deleteButton.bind(
         "click",
         function() {
-            var expression = me.controls.display.val();
+            var expression = me.controls.display.text();
             if (expression != "") {
-                me.controls.display.val(expression.substring(0, expression.length - 1));
+                me.controls.display.text(expression.substring(0, expression.length - 1));
             }
         }
     );

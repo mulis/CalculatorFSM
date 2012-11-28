@@ -66,10 +66,10 @@ Calculator.prototype.Model.prototype.getAll = function() {
 Calculator.prototype.Model.prototype.toString = function() {
     var string = "";
     if (this.properties.result && this.properties.result != "") {
-        string += this.properties.result + "\n";
+        string += this.properties.result;
     }
     else {
-        string += this.properties.error + "\n";
+        string += this.properties.error;
     }
     return string;
 };

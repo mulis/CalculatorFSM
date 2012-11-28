@@ -16,7 +16,7 @@ public class CalculatorTest {
     public void numberTest() throws Exception {
         assertEquals("Result of expression with integer number", valueOf(1), calculator.calculate("1"));
         assertEquals("Result of expression with decimal number", valueOf(1.1), calculator.calculate("1.1"));
-        assertEquals("Result of expression with number with spaces", valueOf(1), calculator.calculate(" 1 "));
+        assertEquals("Result of expression with number surrounded by spaces", valueOf(1), calculator.calculate(" 1 "));
         assertEquals("Result of expression with negative number", valueOf(-1), calculator.calculate(" -1 "));
     }
 
@@ -59,6 +59,29 @@ public class CalculatorTest {
         assertEquals("Result of expression with decimal exponent", valueOf(2), calculator.calculate(" 4 ^ 0.5 "));
         assertEquals("Result of expression with zero exponent", valueOf(1), calculator.calculate(" 4 ^ 0 "));
         assertEquals("Result of expression with negative exponent", valueOf(0.25), calculator.calculate(" 4 ^ -1 "));
+    }
+
+    @Test
+    public void eNotationNumberTest() throws Exception {
+        assertEquals("Result of expression with E notation number", new BigDecimal("1e2"), calculator.calculate("1e2"));
+        assertEquals("Result of expression with E notation number", new BigDecimal("1e+2"), calculator.calculate("1e+2"));
+        assertEquals("Result of expression with E notation number", new BigDecimal("1e-2"), calculator.calculate("1e-2"));
+    }
+
+    @Test
+    public void eNotationNumberArithmeticTest() throws Exception {
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("101"), calculator.calculate("1e2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("151"), calculator.calculate("1.5e2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("101"), calculator.calculate("1e+2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("151"), calculator.calculate("1.5e+2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("1.01"), calculator.calculate("1e-2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("1.015"), calculator.calculate("1.5e-2+1"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("2e2"), calculator.calculate("1e2*2"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("3.0e2"), calculator.calculate("1.5e2*2"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("2e2"), calculator.calculate("1e+2*2"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("3.0e2"), calculator.calculate("1.5e+2*2"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("0.02"), calculator.calculate("1e-2*2"));
+        assertEquals("Result of expression with E notation number arithmetic operation", new BigDecimal("0.030"), calculator.calculate("1.5e-2*2"));
     }
 
     @Test
