@@ -1,4 +1,4 @@
-Calculator.prototype.Controller = function(calculator) {
+Calculator.prototype.Controller = function (calculator) {
 
     var me = this;
 
@@ -6,31 +6,31 @@ Calculator.prototype.Controller = function(calculator) {
 
     $(this.calculator.element).bind(
         calculator.events.MODEL_READY,
-        function() {
+        function () {
             me.calculate();
         }
     );
 
 };
 
-Calculator.prototype.Controller.prototype.calculate = function() {
+Calculator.prototype.Controller.prototype.calculate = function () {
 
     var me = this;
 
-    $.post(
+    $.get(
         me.calculator.serviceURL,
-        {"expression" : me.calculator.model.getExpression()}
+        {"expression": me.calculator.model.getExpression()}
     )
-    .success(function(data) {
-        me.calculator.model.setAll(data);
-        me.calculator.element.trigger(me.calculator.events.RESULT_READY);
-     })
-    .error(function(data) {
-        me.calculator.model.setAll({"error":"Calculation service error"});
-        me.calculator.element.trigger(me.calculator.events.SERVICE_ERROR);
-    })
-    .complete(function(data) {
-    })
+        .success(function (data) {
+            me.calculator.model.setAll(data);
+            me.calculator.element.trigger(me.calculator.events.RESULT_READY);
+        })
+        .error(function (data) {
+            me.calculator.model.setAll({"error": "Calculation service error"});
+            me.calculator.element.trigger(me.calculator.events.SERVICE_ERROR);
+        })
+        .complete(function (data) {
+        })
     ;
 
 };

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class CalculatorServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String expression = req.getParameter("expression");
         CalculatorResult result = CalculatorServer.calculate(expression);
