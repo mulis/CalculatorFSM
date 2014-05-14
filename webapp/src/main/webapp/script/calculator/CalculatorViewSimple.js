@@ -41,9 +41,8 @@ Calculator.prototype.View.prototype.updateModel = function() {
 };
 
 Calculator.prototype.View.prototype.updateView = function() {
-    var output = this.controls.resultOutput;
-    output.append(this.calculator.model.toString() + "\n");
-    output.scrollTop(output[0].scrollHeight - output.height());
+    this.controls.resultTextArea.prop('value', this.controls.resultTextArea.prop('value') + this.calculator.model.toString() + "\n");
+    this.controls.resultTextArea.prop('scrollTop', this.controls.resultTextArea.prop('scrollHeight'));
 };
 
 Calculator.prototype.View.prototype.enableCalculateButton = function() {
@@ -56,7 +55,7 @@ Calculator.prototype.View.prototype.disableCalculateButton = function() {
 
 
 Calculator.prototype.View.prototype.clearResultOutput = function() {
-    this.controls.resultOutput.text("");
+    this.controls.resultTextArea.prop('value', '');
 };
 
 Calculator.prototype.View.prototype.loadTemplate = function(name) {
@@ -92,8 +91,8 @@ Calculator.prototype.View.prototype.initControls = function() {
     this.controls = {
          expressionInput : this.calculator.element.find(".calculator-expressionInput"),
          calculateButton : this.calculator.element.find(".calculator-calculateButton"),
-         resultOutput : this.calculator.element.find(".calculator-resultTextArea"),
-         clearButton : this.calculator.element.find(".calculator-clearButton")
+        resultTextArea: this.calculator.element.find(".calculator-resultTextArea"),
+        clearButton : this.calculator.element.find(".calculator-clearButton")
      };
 
     this.controls.calculateButton.bind(
