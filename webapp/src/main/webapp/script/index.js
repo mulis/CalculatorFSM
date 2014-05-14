@@ -1,4 +1,4 @@
-$("document").ready(function() {
+$("document").ready(function () {
 
     var calculators = $("#calculators");
     var calculatorIdNumber = -1;
@@ -9,7 +9,7 @@ $("document").ready(function() {
         calculatorIdNumber += 1;
         calculatorId = calculatorIdPrefix + calculatorIdNumber;
         calculators.append("<div id=\"" + calculatorId + "\"></div>")
-        new Calculator(calculatorId, "/calculator/calculate");
+        new Calculator(calculatorId, "/calculate");
     }
 
     function removeCalculator() {
