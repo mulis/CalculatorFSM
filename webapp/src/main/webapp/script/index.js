@@ -1,8 +1,22 @@
-var c1, c2;
-
 $("document").ready(function() {
 
-    c1 = new Calculator("calculator1", "/calculator/calculate");
-    c2 = new Calculator("calculator2", "/calculator/calculate");
+    var calculators = $("#calculators");
+    var calculatorIdNumber = -1;
+    var calculatorIdPrefix = "calculator";
+    var calculatorId;
+
+    function addCalculator() {
+        calculatorIdNumber += 1;
+        calculatorId = calculatorIdPrefix + calculatorIdNumber;
+        calculators.append("<div id=\"" + calculatorId + "\"></div>")
+        new Calculator(calculatorId, "/calculator/calculate");
+    }
+
+    function removeCalculator() {
+        calculators.children().last().remove();
+    }
+
+    $("#addCalculatorButton").on("click", addCalculator);
+    $("#removeCalculatorButton").on("click", removeCalculator);
 
 });
