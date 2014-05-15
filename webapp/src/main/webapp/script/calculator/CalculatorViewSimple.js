@@ -41,7 +41,10 @@ Calculator.prototype.View.prototype.updateModel = function() {
 };
 
 Calculator.prototype.View.prototype.updateView = function() {
-    this.controls.resultTextArea.prop('value', this.controls.resultTextArea.prop('value') + this.calculator.model.toString() + "\n");
+    var output = this.controls.resultTextArea.prop('value');
+    output += this.calculator.model.getExpression() + "\n";
+    output += "=" + this.calculator.model.toString() + "\n";
+    this.controls.resultTextArea.prop('value', output);
     this.controls.resultTextArea.prop('scrollTop', this.controls.resultTextArea.prop('scrollHeight'));
 };
 
