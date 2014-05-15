@@ -1,6 +1,6 @@
 // CalculatorViewSimple
 
-Calculator.prototype.View = function(calculator) {
+Calculator.prototype.ViewSimple = function (calculator) {
 
     var me = this;
 
@@ -36,11 +36,11 @@ Calculator.prototype.View = function(calculator) {
 
 };
 
-Calculator.prototype.View.prototype.updateModel = function() {
+Calculator.prototype.ViewSimple.prototype.updateModel = function () {
     this.calculator.model.setExpression(this.controls.expressionInput.val());
 };
 
-Calculator.prototype.View.prototype.updateView = function() {
+Calculator.prototype.ViewSimple.prototype.updateView = function () {
     var output = this.controls.resultTextArea.prop('value');
     output += this.calculator.model.getExpression() + "\n";
     output += "=" + this.calculator.model.toString() + "\n";
@@ -48,20 +48,20 @@ Calculator.prototype.View.prototype.updateView = function() {
     this.controls.resultTextArea.prop('scrollTop', this.controls.resultTextArea.prop('scrollHeight'));
 };
 
-Calculator.prototype.View.prototype.enableCalculateButton = function() {
+Calculator.prototype.ViewSimple.prototype.enableCalculateButton = function () {
     this.controls.calculateButton.prop('disabled', false);
 };
 
-Calculator.prototype.View.prototype.disableCalculateButton = function() {
+Calculator.prototype.ViewSimple.prototype.disableCalculateButton = function () {
     this.controls.calculateButton.prop('disabled', true);
 };
 
 
-Calculator.prototype.View.prototype.clearResultOutput = function() {
+Calculator.prototype.ViewSimple.prototype.clearResultOutput = function () {
     this.controls.resultTextArea.prop('value', '');
 };
 
-Calculator.prototype.View.prototype.loadTemplate = function(name) {
+Calculator.prototype.ViewSimple.prototype.loadTemplate = function (name) {
 
     var me = this;
 
@@ -87,7 +87,7 @@ Calculator.prototype.View.prototype.loadTemplate = function(name) {
     ;
 };
 
-Calculator.prototype.View.prototype.initControls = function() {
+Calculator.prototype.ViewSimple.prototype.initControls = function () {
 
     var me = this;
 

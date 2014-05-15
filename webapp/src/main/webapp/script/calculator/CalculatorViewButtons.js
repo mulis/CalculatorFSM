@@ -1,6 +1,6 @@
 // CalculatorViewButtons
 
-Calculator.prototype.View = function(calculator) {
+Calculator.prototype.ViewButtons = function (calculator) {
 
     var me = this;
 
@@ -36,11 +36,11 @@ Calculator.prototype.View = function(calculator) {
 
 };
 
-Calculator.prototype.View.prototype.updateModel = function() {
+Calculator.prototype.ViewButtons.prototype.updateModel = function () {
     this.calculator.model.setExpression(this.controls.display.text());
 };
 
-Calculator.prototype.View.prototype.updateView = function() {
+Calculator.prototype.ViewButtons.prototype.updateView = function () {
     if (this.calculator.model.getError() == "") {
         this.controls.display.text(this.calculator.model.toString());
     }
@@ -60,16 +60,16 @@ Calculator.prototype.View.prototype.updateView = function() {
     }
 };
 
-Calculator.prototype.View.prototype.enableCalculateButton = function() {
+Calculator.prototype.ViewButtons.prototype.enableCalculateButton = function () {
     this.controls.calculateButton.prop('disabled', false);
 };
 
-Calculator.prototype.View.prototype.disableCalculateButton = function() {
+Calculator.prototype.ViewButtons.prototype.disableCalculateButton = function () {
     this.controls.calculateButton.prop('disabled', true);
 };
 
 
-Calculator.prototype.View.prototype.loadTemplate = function(name) {
+Calculator.prototype.ViewButtons.prototype.loadTemplate = function (name) {
 
     var me = this;
 
@@ -95,7 +95,7 @@ Calculator.prototype.View.prototype.loadTemplate = function(name) {
     ;
 };
 
-Calculator.prototype.View.prototype.initControls = function() {
+Calculator.prototype.ViewButtons.prototype.initControls = function () {
 
     var me = this;
 

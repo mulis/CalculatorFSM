@@ -5,18 +5,23 @@ $("document").ready(function () {
     var calculatorIdPrefix = "calculator";
     var calculatorId;
 
-    function addCalculator() {
+    function addCalculator(viewName) {
         calculatorIdNumber += 1;
         calculatorId = calculatorIdPrefix + calculatorIdNumber;
-        calculators.append("<div id=\"" + calculatorId + "\"></div>")
-        new Calculator(calculatorId, "/calculate");
+        calculators.append("<div id=\"" + calculatorId + "\"></div>");
+        new Calculator(calculatorId, "/calculate", viewName);
     }
 
     function removeCalculator() {
         calculators.children().last().remove();
     }
 
-    $("#addCalculatorButton").on("click", addCalculator);
+    $("#addSimpleViewCalculatorButton").on("click", function () {
+        addCalculator("ViewSimple");
+    });
+    $("#addButtonsViewCalculatorButton").on("click", function () {
+        addCalculator("ViewButtons");
+    });
     $("#removeCalculatorButton").on("click", removeCalculator);
 
 });

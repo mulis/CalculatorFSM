@@ -1,4 +1,4 @@
-var Calculator = function(elementID, serviceURL) {
+var Calculator = function (elementID, serviceURL, viewName) {
 
     this.element = $("#" + elementID);
     this.serviceURL = serviceURL;
@@ -10,7 +10,11 @@ var Calculator = function(elementID, serviceURL) {
     };
 
     this.model = new Calculator.prototype.Model(this);
-    this.view = new Calculator.prototype.View(this);
     this.controller = new Calculator.prototype.Controller(this);
+    if (viewName && Calculator.prototype[viewName]) {
+        this.view = new Calculator.prototype[viewName](this);
+    } else {
+        this.view = new Calculator.prototype.ViewSimple(this);
+    }
 
 };
