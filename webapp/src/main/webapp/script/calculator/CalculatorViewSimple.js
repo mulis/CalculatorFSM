@@ -37,13 +37,13 @@ Calculator.prototype.ViewSimple = function (calculator) {
 };
 
 Calculator.prototype.ViewSimple.prototype.updateModel = function () {
-    this.calculator.model.setExpression(this.controls.expressionInput.val());
+    this.calculator.model.setExpression(this.controls.input.val());
 };
 
 Calculator.prototype.ViewSimple.prototype.updateView = function () {
     var output = this.controls.resultTextArea.prop('value');
     output += this.calculator.model.getExpression() + "\n";
-    output += "=" + this.calculator.model.toString() + "\n";
+    output += "=" + this.calculator.model.getValue() + "\n";
     this.controls.resultTextArea.prop('value', output);
     this.controls.resultTextArea.prop('scrollTop', this.controls.resultTextArea.prop('scrollHeight'));
 };
@@ -61,39 +61,13 @@ Calculator.prototype.ViewSimple.prototype.clearResultOutput = function () {
     this.controls.resultTextArea.prop('value', '');
 };
 
-Calculator.prototype.ViewSimple.prototype.loadTemplate = function (name) {
-
-    var me = this;
-
-    for (var i = 0; i < document.scripts.length; i++) {
-        var scriptSrc = document.scripts.item(i).src;
-        if (scriptSrc.indexOf(name) > -1) {
-            name = scriptSrc.substring(0, scriptSrc.lastIndexOf(".js")) + ".tmpl";
-        }
-    }
-
-    $.get(
-        name
-    )
-    .success(function(data) {
-        me.calculator.element.html(data);
-        me.initControls();
-     })
-    .error(function(data) {
-        me.calculator.element.text("Calculator view template file " + name + ".tmpl loading error.");
-    })
-    .complete(function(data) {
-    })
-    ;
-};
-
 Calculator.prototype.ViewSimple.prototype.initControls = function () {
 
     var me = this;
 
     this.controls = {
-         expressionInput : this.calculator.element.find(".calculator-expressionInput"),
-         calculateButton : this.calculator.element.find(".calculator-calculateButton"),
+        expressionInput: this.calculator.element.find(".calculator-input"),
+        calculateButton: this.calculator.element.find(".calculator-calculateButton"),
         resultTextArea: this.calculator.element.find(".calculator-resultTextArea"),
         clearButton : this.calculator.element.find(".calculator-clearButton")
      };
@@ -105,11 +79,11 @@ Calculator.prototype.ViewSimple.prototype.initControls = function () {
         }
     );
 
-    this.controls.expressionInput.bind(
+    this.controls.input.bind(
         "keypress",
         function(aEvent) {
             var keycode = (aEvent.keyCode ? aEvent.keyCode : aEvent.which);
-            if(keycode == "13"){
+            if (keycode == "13") {
                 me.calculator.element.trigger(me.calculator.events.EXPRESSION_READY);
             }
         }
@@ -123,3 +97,5 @@ Calculator.prototype.ViewSimple.prototype.initControls = function () {
     );
 
 };
+
+Calculator.prototype.ViewSimple.prototype.loadTemplate = Calculator.prototype.View.prototype.loadTemplate;

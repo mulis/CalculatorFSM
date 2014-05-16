@@ -1,0 +1,40 @@
+<style>
+.calculator-expression {
+}
+.calculator-expression-input {
+    position: absolute;
+    top: -999px;
+    left: -999px;
+}
+.calculator-expression-canvas {
+    height: 20em;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 3em;
+}
+.calculator-cursor {
+    font-family: sans-serif;
+}
+.calculator-number {
+    display: inline-block;
+}
+.calculator-operator {
+    display: inline-block;
+}
+.calculator-operator-addition,
+.calculator-operator-subtraction,
+.calculator-operator-multiplication,
+.calculator-operator-division,
+.calculator-operator-exponentiation
+{
+    display: inline-block;
+}
+.calculator-parenthesis {
+    display: inline-block;
+}
+</style>
+<div class="calculator-expression">
+    <div class="calculator-expression-canvas"></div>
+    <input type="text" class="calculator-expression-input" />
+</div>
+<!--div class="calculator-canvas" onClick="this.contentEditable='true';"></div-->

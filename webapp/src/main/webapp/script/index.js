@@ -22,6 +22,9 @@ $("document").ready(function () {
     $("#addButtonsViewCalculatorButton").on("click", function () {
         addCalculator("ViewButtons");
     });
+    $("#addExpressViewCalculatorButton").on("click", function () {
+        addCalculator("ViewExpress");
+    });
     $("#removeCalculatorButton").on("click", removeCalculator);
 
 });
